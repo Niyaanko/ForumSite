@@ -6,7 +6,7 @@ class Register extends CI_Controller {
     {
         parent::__construct();
 
-        $this->load->model('register_model');
+        $this->load->model('users_model');
 
         $this->load->helper('url_helper');
     }
@@ -70,7 +70,7 @@ class Register extends CI_Controller {
         {
             
             // アカウントのDB登録
-            $this->register_model->regist_account();
+            $this->users_model->regist_account();
             // セッション・クッキーを登録する
 
             // トップページを表示する
