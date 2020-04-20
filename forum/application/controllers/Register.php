@@ -69,8 +69,8 @@ class Register extends CI_Controller {
         else
         {
             
-            // 
-            $this->news_model->();
+            // アカウントのDB登録
+            $this->register_model->regist_account();
             // セッション・クッキーを登録する
 
             // トップページを表示する
