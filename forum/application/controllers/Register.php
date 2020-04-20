@@ -54,10 +54,6 @@ class Register extends CI_Controller {
         );
 
         $this->form_validation->set_rules($config);
-
-        // 重複するメールアドレスがいないかチェック
-
-        // パスワードが正しく入力されているかチェック
         
         //既にセッションがある場合はトップページを表示する
         $isSession = false
