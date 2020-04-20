@@ -70,7 +70,7 @@ class Register extends CI_Controller {
         {
             
             // アカウントのDB登録
-            $this->users_model->regist_account();
+            $this->users_model->regist_user();
             // セッション・クッキーを登録する
 
             // トップページを表示する

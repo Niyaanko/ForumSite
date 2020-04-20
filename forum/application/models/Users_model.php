@@ -6,9 +6,10 @@ class Users_model extends CI_model {
         $this->load->database();
     }
 
-    public function regist_account()
+    public function regist_user()
     {
         $nickname = '名無しさん';
+        // パスワードではハッシュ化を行う
         $data = array(
             'nickname' => $nickname,
             'mailaddress' => $this->input->post('mailaddress'),
@@ -18,6 +19,10 @@ class Users_model extends CI_model {
         return $this->db->insert('users', $data);
     }
 
+    public function login_user()
+    {
+
+    }
     // 暗号化方法を隠蔽
     private function regist_password_hash($pass)
     {
