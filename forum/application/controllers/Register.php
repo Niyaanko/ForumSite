@@ -18,6 +18,7 @@ class Register extends CI_Controller {
     }
 
     // アカウント登録操作を行う
+    public function regist()
     {
         // フォームヘルパーのロード
         $this->load->helper('form');
