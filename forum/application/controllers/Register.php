@@ -56,15 +56,6 @@ class Register extends CI_Controller {
         $this->form_validation->set_rules($config);
         
         //既にセッションがある場合はトップページを表示する
-        $isSession = false
-        if($isSession)
-        {
-
-            // トップページを表示する
-            $this->load->view('header', $data);
-            $this->load->view('');
-            $this->load->view('footer', $data);
-        } 
         // submit 前や、不正な入力のときはフォームを表示する。
         elseif($this->form_validation->run() === FALSE )
         {
