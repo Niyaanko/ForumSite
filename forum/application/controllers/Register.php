@@ -62,7 +62,7 @@ class Register extends CI_Controller {
             
             // アカウント登録画面を表示する
             $this->load->view('header', $data);
-            $this->load->view('');
+            $this->load->view('register_page');
             $this->load->view('footer', $data);
         }
         // 正しく入力されたときはアカウント登録操作を行い、トップページを表示する
