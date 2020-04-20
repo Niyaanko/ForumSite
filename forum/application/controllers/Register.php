@@ -75,7 +75,7 @@ class Register extends CI_Controller {
 
             // トップページを表示する
             $this->load->view('header', $data);
-            $this->load->view('');
+            $this->load->view('register_page');
             $this->load->view('footer', $data);
         }
     }
