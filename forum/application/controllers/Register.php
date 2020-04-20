@@ -57,7 +57,6 @@ class Register extends CI_Controller {
         
         //既にセッションがある場合はトップページを表示する
         // submit 前や、不正な入力のときはフォームを表示する。
-        elseif($this->form_validation->run() === FALSE )
         {
             
             // アカウント登録画面を表示する
