@@ -43,7 +43,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules($config);
 
         //既にセッションがある場合はトップページを表示する
-        if($this->session_managaer->isSession())
+        if($this->session_manager->isSession())
         {
             // トップページのコントローラに繊維する
             $this->url->redirect(site_url("forum/view"));
@@ -51,7 +51,7 @@ class Login extends CI_Controller {
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE)
         {
-            // アカウント登録画面を表示する
+            // ログイン画面を表示する
             $this->load->view('header', $data);
             $this->load->view('login_page',$data);
             $this->load->view('footer', $data);
@@ -63,7 +63,8 @@ class Login extends CI_Controller {
             // ログインに失敗した場合はフォームを表示する
             if(is_null($user_id))
             {
-                // アカウント登録画面を表示する
+                $data['error'] = 'ログインに失敗しました';
+                // ログイン画面を表示する
                 $this->load->view('header', $data);
                 $this->load->view('login_page',$data);
                 $this->load->view('footer', $data);
@@ -72,9 +73,9 @@ class Login extends CI_Controller {
             else
             {
                 //セッション・クッキーをセット
-                $this->session_managaer->addSession($user_id);
+                $this->session_manager->addSession($user_id);
                 // トップページのコントローラに繊維する
-                $this->url->redirect(site_url("forum/view"));
+                redirect(site_url("forum/view"));
             }
         }
     }

@@ -43,10 +43,10 @@ class Register extends CI_Controller {
         $this->form_validation->set_rules($config);
         
         //既にセッションがある場合はトップページを表示する
-        if($this->session_managaer->isSession())
+        if($this->session_manager->isSession())
         {
             // トップページのコントローラに遷移する
-            $this->url->redirect(site_url("forum/view"));
+            redirect(site_url("forum/view"));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE )
@@ -64,7 +64,7 @@ class Register extends CI_Controller {
             //登録したアカウントのid取得
             $user_id = $this->users_model->login_user();
             // セッション・クッキーを登録する
-            $this->session_managaer->addSession($user_id);
+            $this->session_manager->addSession($user_id);
             // トップページを表示する
             $this->url->redirect(site_url("top/view"));
         }
