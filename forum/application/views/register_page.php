@@ -9,4 +9,4 @@
     <h3>パスワード<input type="password" name="password"></h3>
     <input type="submit" name="submit" value="登録" />
 </form>
-<p>既にアカウントをお持ちの方は<a href="">こちら</a></p>
+<p>既にアカウントをお持ちの方は<a href="<?php echo site_url("login/login"); ?>">こちら</a></p>

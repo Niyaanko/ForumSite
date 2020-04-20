@@ -5,27 +5,14 @@ class Register extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('users_model');
-
-        $this->load->helper('url_helper');
-    }
-
-    // アカウント登録画面の表示を行う
-    public function view()
-    {
-
+        $this->load->model(array('users_model','session_manager'));
+        $this->load->library(array('session','form_validation'));
+        $this->load->helper(array('form','url_helper','cookie','url'));
     }
 
     // アカウント登録操作を行う
     public function regist()
     {
-        // フォームヘルパーのロード
-        $this->load->helper('form');
-
-        // フォームバリデーションライブラリのロード
-        $this->load->library('form_validation');
-
         // タイトルのセット
         $data['title'] = 'イグナイト - アカウント登録';
 
@@ -56,16 +43,13 @@ class Register extends CI_Controller {
         $this->form_validation->set_rules($config);
         
         //既にセッションがある場合はトップページを表示する
-        if((!is_null($this->session['user_id']) && !is_null($this->cookie->get_cookie('user_id')))
-            && $this->session['user_id'] === $this->cookie->get_cookie('user_id')){
-            
-            // トップページを表示する
-            $this->load->view('header', $data);
-            $this->load->view('top_page');
-            $this->load->view('footer', $data);
+        if($this->session_managaer->isSession())
+        {
+            // トップページのコントローラに遷移する
+            $this->url->redirect(site_url("forum/view"));
         }
         // submit 前や、不正な入力のときはフォームを表示する
-        if($this->form_validation->run() === FALSE )
+        elseif($this->form_validation->run() === FALSE )
         {
             // アカウント登録画面を表示する
             $this->load->view('header', $data);
@@ -77,12 +61,12 @@ class Register extends CI_Controller {
         {   
             // アカウントのDB登録
             $this->users_model->regist_user();
+            //登録したアカウントのid取得
+            $user_id = $this->users_model->login_user();
             // セッション・クッキーを登録する
-
+            $this->session_managaer->addSession($user_id);
             // トップページを表示する
-            $this->load->view('header', $data);
-            $this->load->view('top_page');
-            $this->load->view('footer', $data);
+            $this->url->redirect(site_url("top/view"));
         }
     }
 }

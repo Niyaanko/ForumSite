@@ -4,11 +4,9 @@ class Login extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('users_model');
-        $this->load->helper('url_helper');
+        $this->load->model(array('users_model','session_manager'));
+        $this->load->helper(array('url_helper','cookie','url'));
         $this->load->library('session');
-        $this->load->helper('cookie');
     }
 
     public function login()
@@ -45,12 +43,10 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules($config);
 
         //既にセッションがある場合はトップページを表示する
-        if((!is_null($this->session['user_id']) && !is_null($this->cookie->get_cookie('user_id')))
-            && $this->session['user_id'] === $this->cookie->get_cookie('user_id')){
-            // トップページを表示する
-            $this->load->view('header', $data);
-            $this->load->view('top_page');
-            $this->load->view('footer', $data);
+        if($this->session_managaer->isSession())
+        {
+            // トップページのコントローラに繊維する
+            $this->url->redirect(site_url("forum/view"));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE)
@@ -76,12 +72,9 @@ class Login extends CI_Controller {
             else
             {
                 //セッション・クッキーをセット
-                $this->session = array('user_id' => $user_id);
-                $this->cookie->set_cookie('user_id',$user_id);
-                // トップページを表示する
-                $this->load->view('header', $data);
-                $this->load->view('top_page');
-                $this->load->view('footer', $data);
+                $this->session_managaer->addSession($user_id);
+                // トップページのコントローラに繊維する
+                $this->url->redirect(site_url("forum/view"));
             }
         }
     }
