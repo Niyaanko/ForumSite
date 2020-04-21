@@ -7,7 +7,7 @@ class Register extends CI_Controller {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
         $this->load->library(array('session','form_validation'));
-        $this->load->helper(array('form','url_helper','url'));
+        $this->load->helper(array('form','url_helper'));
     }
 
     // アカウント登録操作を行う
@@ -62,9 +62,9 @@ class Register extends CI_Controller {
             // アカウントのDB登録
             $this->users_model->regist_user();
             //登録したアカウントのid取得
-            $user_id = $this->users_model->login_user();
+            $user = $this->users_model->login_user();
             // セッション・クッキーを登録する
-            $this->session_manager->addSession($user_id);
+            $this->session_manager->addSession($user);
             // トップページを表示する
             redirect(site_url("forum/view"));
         }

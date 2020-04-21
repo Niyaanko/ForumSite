@@ -5,7 +5,7 @@ class Login extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
-        $this->load->helper(array('form','url_helper','url'));
+        $this->load->helper(array('form','url_helper'));
         $this->load->library(array('session','form_validation'));
     }
 
@@ -41,7 +41,7 @@ class Login extends CI_Controller {
         //既にセッションがある場合はトップページを表示する
         if($this->session_manager->isSession())
         {
-            // トップページのコントローラに繊維する
+            // トップページのコントローラに遷移する
             redirect(site_url("forum/view"));
         }
         // submit 前や、不正な入力のときはフォームを表示する
@@ -55,9 +55,9 @@ class Login extends CI_Controller {
         // 正しく入力されたときはログイン操作を行い、トップページを表示する
         else
         {   
-            $user_id = $this->users_model->login_user();
+            $user = $this->users_model->login_user();
             // ログインに失敗した場合はフォームを表示する
-            if(is_null($user_id))
+            if(is_null($user))
             {
                 $data['error'] = 'ログインに失敗しました';
                 // ログイン画面を表示する
@@ -69,7 +69,7 @@ class Login extends CI_Controller {
             else
             {
                 //セッションをセット
-                $this->session_manager->addSession($user_id);
+                $this->session_manager->addSession($user);
                 // トップページのコントローラに遷移する
                 redirect(site_url("forum/view"));
             }

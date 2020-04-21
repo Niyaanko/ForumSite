@@ -54,8 +54,10 @@ class Users_model extends CI_Model {
         if($is_correct === FALSE){
             return NULL;    
         }
-        // user_idを返却
-        return $user['user_id'];
+        //passwordは必要ないので削除
+        unset($user['password']);
+        // userを返却
+        return $user;
     }
     // 暗号化方法を隠蔽
     private function regist_password_hash($pass)

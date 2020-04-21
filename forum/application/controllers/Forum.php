@@ -6,17 +6,22 @@ class Forum extends CI_Controller{
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
         $this->load->library('session');
-        $this->load->helper('url','url_helper');
+        $this->load->helper('url_helper');
     }
 
     public function view()
     {
-        $data['title'] = 'イグナイト - トップページ';
-        // user_idからパスワード以外のユーザ情報を取得
-        $user = $this->users_model->get_user($_SESSION['user_id']);
-        if(!(is_null($user))){
-            $data['user'] = $user;
+        // セッションの有無を判定　なかった場合ログインページへ
+        if($this->session_manager->isSession() === FALSE){
+            $this->session_manager->deleteSession();
+            redirect(site_url("login/login"));
         }
+
+        // スレッド情報の取得
+        
+        // それぞれのスレッドのコメント数取得
+
+        $data['title'] = 'イグナイト - トップページ';
         $this->load->view('header', $data);
         $this->load->view('top_page',$data);
         $this->load->view('footer', $data);
