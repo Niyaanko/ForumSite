@@ -5,12 +5,13 @@ class Forum extends CI_Controller{
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
-        $this->load->library('session');
-        $this->load->helper(array('cookie','url'));
+        // $this->load->library('session');
+        $this->load->helper('url');
     }
 
     public function view()
     {
+        $data['title'] = 'イグナイト - トップページ';
         // user_idからパスワード以外のユーザ情報を取得
         $user = $this->users_model->get_user($_SESSION['user_id']);
         if(!(is_null($user))){

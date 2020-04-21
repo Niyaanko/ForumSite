@@ -7,7 +7,7 @@ class Register extends CI_Controller {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
         $this->load->library(array('session','form_validation'));
-        $this->load->helper(array('form','url_helper','cookie','url'));
+        $this->load->helper(array('form','url_helper','url'));
     }
 
     // アカウント登録操作を行う

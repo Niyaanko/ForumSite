@@ -5,8 +5,7 @@ class Login extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
-        $this->load->helper(array('url_helper','cookie','url'));
-        $this->load->library('session');
+        $this->load->helper(array('url_helper','url'));
     }
 
     public function login()
@@ -43,7 +42,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules($config);
 
         //既にセッションがある場合はトップページを表示する
-        if($this->session_manager->isSession())
+        if(isset($_SESSION['user_id']))
         {
             // トップページのコントローラに繊維する
             $this->url->redirect(site_url("forum/view"));
@@ -73,8 +72,8 @@ class Login extends CI_Controller {
             else
             {
                 //セッション・クッキーをセット
-                $this->session_manager->addSession($user_id);
-                // トップページのコントローラに繊維する
+                $_SESSION['user_id'] = $user_id;
+                // トップページのコントローラに遷移する
                 redirect(site_url("forum/view"));
             }
         }
