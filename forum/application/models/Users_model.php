@@ -26,7 +26,8 @@ class Users_model extends CI_Model {
             return NULL;
         }
         // SELECT * FROM users WHERE user_id = 引数のuser_id
-        $user = $this->db->get_where('users', array('user_id' => $user_id));
+        $query = $this->db->get_where('users', array('user_id' => $user_id));
+        $user = $query->row_array();
         // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)NULLを返却
         if(is_null($user)){
             return NULL;
@@ -46,10 +47,12 @@ class Users_model extends CI_Model {
         if(is_null($user)){
             return NULL;
         }
-        // パスワードがDBに格納されているハッシュ化されたパスワードと一致するか判定 一致しなかったっ場合NULLを返却
-
-        if($this->login_password_verify($this->input->post('password'),$user['password']) === FALSE){
-            return NULL;
+        // パスワードがDBに格納されているハッシュ化されたパスワードと一致するか判定 一致しなかった場合NULLを返却
+        $input_password = $this->input->post('password');
+        $hash_password = $user['password'];
+        $is_correct = password_verify($input_password, $hash_password);
+        if($is_correct === FALSE){
+            return NULL;    
         }
         // user_idを返却
         return $user['user_id'];
@@ -59,10 +62,4 @@ class Users_model extends CI_Model {
     {
         return password_hash($pass, PASSWORD_BCRYPT);
     }
-
-    private function login_password_verify($pass)
-    {
-        return password_hash($pass, PASSWORD_BCRYPT);
-    }
-
 }

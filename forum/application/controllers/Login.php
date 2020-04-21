@@ -5,15 +5,12 @@ class Login extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager'));
-        $this->load->helper(array('url_helper','url'));
+        $this->load->helper(array('form','url_helper','url'));
+        $this->load->library(array('session','form_validation'));
     }
 
     public function login()
     {
-        // フォームヘルパーのロード
-        $this->load->helper('form');
-        // フォームバリデーションライブラリのロード
-        $this->load->library('form_validation');
         // タイトルのセット
         $data['title'] = 'イグナイト - ログイン';
         //検証ルールの複数指定
@@ -42,10 +39,10 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules($config);
 
         //既にセッションがある場合はトップページを表示する
-        if(isset($_SESSION['user_id']))
+        if($this->session_manager->isSession())
         {
             // トップページのコントローラに繊維する
-            $this->url->redirect(site_url("forum/view"));
+            redirect(site_url("forum/view"));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE)
@@ -68,11 +65,11 @@ class Login extends CI_Controller {
                 $this->load->view('login_page',$data);
                 $this->load->view('footer', $data);
             }
-            // ログインに成功した場合はセッション・クッキーをセットしトップページを表示
+            // ログインに成功した場合はセッションをセットしトップページを表示
             else
             {
-                //セッション・クッキーをセット
-                $_SESSION['user_id'] = $user_id;
+                //セッションをセット
+                $this->session_manager->addSession($user_id);
                 // トップページのコントローラに遷移する
                 redirect(site_url("forum/view"));
             }

@@ -66,7 +66,7 @@ class Register extends CI_Controller {
             // セッション・クッキーを登録する
             $this->session_manager->addSession($user_id);
             // トップページを表示する
-            $this->url->redirect(site_url("top/view"));
+            redirect(site_url("forum/view"));
         }
     }
 }
