@@ -48,7 +48,7 @@ header .header_login {
 	background-color: #726da8;
 }
 header .header_login:hover {
-	background-color: #ffffff;
-	color: #726da8;
+	background-color: rgba(230, 230, 250, 0.3);
+	color: #ffffff;
 	transition: all 0.5s;
 }
