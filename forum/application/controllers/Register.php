@@ -13,9 +13,6 @@ class Register extends CI_Controller {
     // アカウント登録操作を行う
     public function regist()
     {
-        // タイトルのセット
-        $data['title'] = 'イグナイト - アカウント登録';
-
         //検証ルールの複数指定
         $config = array(
             array(
@@ -46,11 +43,15 @@ class Register extends CI_Controller {
         if($this->session_manager->isSession())
         {
             // トップページのコントローラに遷移する
-            redirect(site_url("forum/view"));
+            redirect(site_url('forum/view'));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE )
         {
+            // タイトルを渡す
+            $data['title'] = 'イグナイト - アカウント登録';
+            // ログイン画面のCSSを渡す
+            $data['stylesheet'] = 'register_style.css';
             // アカウント登録画面を表示する
             $this->load->view('header', $data);
             $this->load->view('register_page');
@@ -66,7 +67,7 @@ class Register extends CI_Controller {
             // セッション・クッキーを登録する
             $this->session_manager->addSession($user);
             // トップページを表示する
-            redirect(site_url("forum/view"));
+            redirect(site_url('forum/view'));
         }
     }
 }

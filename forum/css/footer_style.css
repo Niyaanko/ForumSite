@@ -1,0 +1,12 @@
+footer {
+	position: relative;
+	height: 100px;
+	width: 100%;
+	padding: 15px 0;
+	background-color: #726da8;
+	color: #f5f5f5;
+	border-top: 2px dotted #000000;
+}
+footer em {
+	padding-left: 20px;
+}

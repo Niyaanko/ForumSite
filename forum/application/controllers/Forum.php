@@ -14,14 +14,18 @@ class Forum extends CI_Controller{
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE){
             $this->session_manager->deleteSession();
-            redirect(site_url("login/login"));
+            redirect(site_url('login/login'));
         }
 
         // スレッド情報の取得
         
         // それぞれのスレッドのコメント数取得
 
+        // タイトルを渡す
         $data['title'] = 'イグナイト - トップページ';
+        // トップページ画面のCSSを渡す
+        $data['stylesheet'] = 'top_style.css';
+        // トップページ画面を表示する
         $this->load->view('header', $data);
         $this->load->view('top_page',$data);
         $this->load->view('footer', $data);
@@ -30,7 +34,7 @@ class Forum extends CI_Controller{
     public function logout()
     {
         $this->session_manager->deleteSession();
-        redirect(site_url("login/login"));
+        redirect(site_url('login/login'));
     }
 
 }

@@ -11,8 +11,6 @@ class Login extends CI_Controller {
 
     public function login()
     {
-        // タイトルのセット
-        $data['title'] = 'イグナイト - ログイン';
         //検証ルールの複数指定
         $config = array(
             array(
@@ -42,11 +40,15 @@ class Login extends CI_Controller {
         if($this->session_manager->isSession())
         {
             // トップページのコントローラに遷移する
-            redirect(site_url("forum/view"));
+            redirect(site_url(('forum/view'));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE)
         {
+            // タイトルを渡す
+            $data['title'] = 'イグナイト - ログイン';
+            // ログイン画面のCSSを渡す
+            $data['stylesheet'] = 'login_style.css';
             // ログイン画面を表示する
             $this->load->view('header', $data);
             $this->load->view('login_page',$data);
@@ -59,7 +61,12 @@ class Login extends CI_Controller {
             // ログインに失敗した場合はフォームを表示する
             if(is_null($user))
             {
+                // タイトルを渡す
+                $data['title'] = 'イグナイト - ログイン';
+                // エラーメッセージを渡す
                 $data['error'] = 'ログインに失敗しました';
+                // ログイン画面のCSSを渡す
+                $data['stylesheet'] = 'login_style.css';
                 // ログイン画面を表示する
                 $this->load->view('header', $data);
                 $this->load->view('login_page',$data);
@@ -71,7 +78,7 @@ class Login extends CI_Controller {
                 //セッションをセット
                 $this->session_manager->addSession($user);
                 // トップページのコントローラに遷移する
-                redirect(site_url("forum/view"));
+                redirect(site_url('forum/view'));
             }
         }
     }
