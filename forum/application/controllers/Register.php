@@ -43,7 +43,7 @@ class Register extends CI_Controller {
         if($this->session_manager->isSession())
         {
             // トップページのコントローラに遷移する
-            redirect(site_url('forum/view'));
+            redirect(site_url('forum/index'));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE )
@@ -67,7 +67,7 @@ class Register extends CI_Controller {
             // セッション・クッキーを登録する
             $this->session_manager->addSession($user);
             // トップページを表示する
-            redirect(site_url('forum/view'));
+            redirect(site_url('forum/index'));
         }
     }
 }

@@ -40,7 +40,7 @@ class Login extends CI_Controller {
         if($this->session_manager->isSession())
         {
             // トップページのコントローラに遷移する
-            redirect(site_url('forum/view'));
+            redirect(site_url('forum/index'));
         }
         // submit 前や、不正な入力のときはフォームを表示する
         elseif($this->form_validation->run() === FALSE)
@@ -78,7 +78,7 @@ class Login extends CI_Controller {
                 //セッションをセット
                 $this->session_manager->addSession($user);
                 // トップページのコントローラに遷移する
-                redirect(site_url('forum/view'));
+                redirect(site_url('forum/index'));
             }
         }
     }
