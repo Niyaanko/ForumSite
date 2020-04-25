@@ -17,8 +17,11 @@
 
     <body>
         <header>
-            <h2 class="header_subtitle">完全会員制掲示板</h2>
-            <h1 class="header_title">イグナイト</h1>
+            <?php // セッションに'user'がセットされていなければタイトルにRegister/Registへのリンクを表示
+                  // セッションに'user'がセットされていればタイトルにForum/indexへのリンクを表示
+            $top_url = isset($_SESSION['user']) ? site_url("forum/index") : site_url("register/regist") ?>
+            <h2 class="header_subtitle"><a href="<?php echo $top_url ?>">完全会員制掲示板</a></h2>
+            <h1 class="header_title"><a href="<?php echo $top_url ?>">イグナイト</a></h1>
             <?php /* 
             セッションに'user'がセットされていなければ「ログイン」にLogin.php メソッドloginへのリンクを表示
             セッションに'user'がセットされていれば「○○さん」に○○さんのマイページへのリンクを表示
