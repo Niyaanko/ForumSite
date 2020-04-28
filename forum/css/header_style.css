@@ -5,6 +5,9 @@
 	font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ",
 		Meiryo, "ＭＳ Ｐゴシック", sans-serif;
 }
+body {
+	background-color: #d4ceef;
+}
 /* アンカータグ */
 a {
 	text-decoration: none;
@@ -23,6 +26,7 @@ header {
 /* タイトル(イグナイト) */
 header .header_title {
 	text-align: center;
+	font-size: 25px;
 }
 /* サブタイトル(完全会員制掲示板) */
 header .header_subtitle {
@@ -33,6 +37,18 @@ header .header_subtitle {
 }
 /* ログイン済の右上リンク（〇〇さん） */
 header .header_mypage {
+	position: absolute;
+	font-weight: bold;
+	padding: 0;
+	top: 11%;
+	left: 88.6%;
+	height: 25%;
+	width: 7%;
+	text-align: center;
+}
+header .header_mypage:hover {
+	color: #c0b6ef;
+	transition: all 0.1s;
 }
 /* ヘッダー右上のログインリンク */
 header .header_login {
@@ -48,7 +64,8 @@ header .header_login {
 	background-color: #726da8;
 }
 header .header_login:hover {
-	background-color: rgba(230, 230, 250, 0.3);
-	color: #ffffff;
+	color: #dadada;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
 	transition: all 0.5s;
 }

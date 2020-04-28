@@ -5,7 +5,7 @@ class Forum extends CI_Controller{
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager','threads_model','comments_model'));
-        $this->load->library('session','pagination');
+        $this->load->library(array('session','pagination'));
         $this->load->helper('url_helper');
     }
 
@@ -28,9 +28,6 @@ class Forum extends CI_Controller{
         // $threadsがNULLでない場合
         else
         {
-            // スレッド作成日で降順にソート
-            array_multisort($sort, SORT_DESC, $threads);
-
             // Forum コントローラのベースURLを定義
             $config['base_url'] = base_url().'forum/index/';
 
@@ -46,15 +43,15 @@ class Forum extends CI_Controller{
 
             // configを反映
             $this->pagination->initialize($config);
-            
+
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
             $data["links"] = $this->pagination->create_links();
-            $threads = $this->students_model->get_threads_limit($config["per_page"], $page);
+            $threads = $this->threads_model->get_threads_limit($config["per_page"], $page);
 
             // それぞれのスレッドのコメント情報取得
             for($i = 0;$i < count($threads);$i++)
             {
-                $comments = $this->comments_model->get_count($thread['thread_id']); 
+                $comments = $this->comments_model->get_count($threads[$i]['thread_id']); 
                 // キー comment_count でコメント数を追加
                 $threads[$i] = array_merge($threads[$i],array('comment_count' => $comments));
             }

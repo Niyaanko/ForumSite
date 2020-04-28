@@ -18,7 +18,7 @@ class Users_model extends CI_Model {
             'password' => $this->regist_password_hash($this->input->post('password')),
             'permission' => 1
         );
-        return $this->db->insert($table, $data);
+        return $this->db->insert($this->table, $data);
     }
 
     public function get_user($user_id)
@@ -28,7 +28,7 @@ class Users_model extends CI_Model {
             return NULL;
         }
         // SELECT * FROM users WHERE user_id = 引数のuser_id
-        $query = $this->db->get_where($table, array('user_id' => $user_id));
+        $query = $this->db->get_where($this->table, array('user_id' => $user_id));
         $user = $query->row_array();
         // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)NULLを返却
         if(is_null($user)){
@@ -43,7 +43,7 @@ class Users_model extends CI_Model {
     public function login_user()
     {
         // フォームから受け取ったメールアドレスのuserを取得
-        $query = $this->db->get_where($table, array('mailaddress' => $this->input->post('mailaddress')));
+        $query = $this->db->get_where($this->table, array('mailaddress' => $this->input->post('mailaddress')));
         $user = $query->row_array();
         // 受け取った値がNULLだった場合(該当するメールアドレスのuserがいなかった場合)NULLを返却
         if(is_null($user)){

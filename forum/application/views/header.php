@@ -28,7 +28,7 @@
             */?>
             <?php if(isset($_SESSION['user'])){ 
             $user = $_SESSION['user']; ?>
-            <p><a class="header_mypage" href="<?php echo site_url("forum/my_page/{$user['user_id']}") ?>"><?php echo $user['nickname'] ?></a></p>
+            <p><a class="header_mypage" href="<?php echo site_url("forum/my_page/{$user['user_id']}") ?>"><?php echo $user['nickname'] ?>さん</a></p>
             <?php }else{ ?>
             <p><a class="header_login" href="<?php echo site_url("login/login") ?>">ログイン</a></p>
             <?php } ?>
