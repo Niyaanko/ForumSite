@@ -10,7 +10,7 @@ class Users_model extends CI_Model {
 
     public function regist_user()
     {
-        $nickname = '名無しさん';
+        $nickname = '名無し';
         // パスワードではハッシュ化を行う
         $data = array(
             'nickname' => $nickname,

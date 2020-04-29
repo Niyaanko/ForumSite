@@ -37,6 +37,9 @@ class Forum extends CI_Controller{
             // 1ページに表示するスレッドの数を定義
             $config['per_page'] = 10;
 
+            // ページネーションで生成されたリンク クラス属性の追加 "page_link" 
+            $config['attributes'] = array('class' => 'page_link');
+            
             // 選択中のページ番号の前後に表示したい "数字" リンクの数を定義
             // たとえば、3を指定すると7ページ目を表示しているとき < 4 5 6 7 8 9 10 > となる
             $config["num_links"] = 3;
