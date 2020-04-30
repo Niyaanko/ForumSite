@@ -12,7 +12,7 @@ class Mypage extends CI_Controller{
     // ユーザーのマイページ表示
     public function mypage()
     {
-        // $order で並び替え方法を指定 NULLの場合はスレッド作成日(降順)
+
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE)
         {
@@ -38,30 +38,98 @@ class Mypage extends CI_Controller{
     // パスワード以外の変更ボタン(ニックネーム、メールアドレス)が押された場合の処理
     public function change($slug = NULL){
 
-        // $order で並び替え方法を指定 NULLの場合はスレッド作成日(降順)
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE)
         {
             $this->session_manager->deleteSession();
             redirect(site_url('login/login'));
         }
-
+        // $slug がnullの場合マイページへ遷移
+        if(empty($slug)){
+            redirect(site_url('mypage/mypage'));
+        }
+        $user = $_SESSION['user'];
+        // 検証ルールの指定
+        $config = 
+            array(
+                array(
+                    'field' => 'nickname',
+                    'label' => 'ニックネーム',
+                    'rules' => 'required|max_length[10]',
+                    'errors' => 
+                    array(
+                        'required' => '%s を入力していません',
+                        'max_length' => '%s は10文字以内で入力して下さい'
+                    )
+                ),
+                array(
+                    'field' => 'mailaddress',
+                    'label' => 'メールアドレス',
+                    'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email|differs['.$user['mailaddress'].']',
+                    'errors' => 
+                    array(
+                        'required' => '%s を入力していません',
+                        'max_length' => '%s は90文字以内で入力して下さい',
+                        'is_unique' => '%s は既に使用されています',
+                        'valid_email' => 'メールアドレスを入力して下さい',
+                        'differs' => '古いメールアドレスと異なるメールアドレスを入力してください'
+                    )
+                )
+            );
         
+        // 検証ルールの反映
+        $this->form_validation->set_rules($config);
 
-        // タイトルを渡す
-        $data['title'] = 'イグナイト - パスワード変更';
-        // トップページ画面のCSSを渡す
-        $data['stylesheet'] = 'my_style.css';
-        // トップページ画面を表示する
-        $this->load->view('header', $data);
-        $this->load->view('change_page', $data);
-        $this->load->view('footer', $data);
+        // 作成スレッド数の取得、セット
+        $data['threads_count'] = $this->threads_model->get_user_count($user['user_id']);
+        // 投稿コメント数の取得、セット
+        $data['comments_count'] = $this->comments_model->get_user_count($user['user_id']);
+        
+        // $slugがnicknameの場合
+        if($slug === 'nickname')
+        {
+            $data['change_label'] = 'ニックネーム';
+            $data['slug'] = 'nickname';
+            // ニックネーム変更のUPDATE文を実行する無名関数の代入
+            $func_update = function($func_user_id)
+            {
+                return $this->users_model->update_nickname($user_id);
+            };
+        }
+        // $slugがnicknameの場合
+        elseif($slug === 'mailaddress')
+        {
+            $data['change_label'] = 'メールアドレス';
+            $data['slug'] = 'mailaddress';
+            // メールアドレス変更のUPDATE文を実行する無名関数の代入
+            $func_update = function($func_user_id)
+            {
+                return $this->users_model->update_mailaddress($user_id);
+            };
+        }
+        // $slugがそれ以外の場合 マイページへ遷移
+        else
+        {
+            redirect(site_url('mypage/mypage'));
+        }
+
+        // submit 前や、不正な入力のときはフォームを表示する
+        if($this->form_validation->run() === FALSE) 
+        {
+            $this->view_change_page($data);
+        }
+        // 正しく入力された場合、UPDATEメソッドを呼び出す UPDATEに成功した場合TRUE、失敗した場合FALSE
+        // を$data['success']にセットしパスワード変更ページを呼び出し
+        else
+        {
+            $data['success'] = $func_update($user['user_id']);
+            $this->view_change_page($data);
+        }
     }
 
     // パスワードの変更ボタンが押された場合の処理
     public function pw_change(){
 
-        // $order で並び替え方法を指定 NULLの場合はスレッド作成日(降順)
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE)
         {
@@ -125,6 +193,21 @@ class Mypage extends CI_Controller{
         // パスワード変更画面を表示する
         $this->load->view('header', $data);
         $this->load->view('password_page', $data);
+        $this->load->view('footer', $data);
+    }
+    public function view_change_page($data)
+    {
+        if(empty($data))
+        {
+            redirect(site_url('mypage/mypage'));
+        }
+        // タイトルを渡す
+        $data['title'] = 'イグナイト - '.$data['change_label'].'変更';
+        // トップページ画面のCSSを渡す
+        $data['stylesheet'] = 'change_style.css';
+        // トップページ画面を表示する
+        $this->load->view('header', $data);
+        $this->load->view('change_page', $data);
         $this->load->view('footer', $data);
     }
 

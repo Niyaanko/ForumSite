@@ -97,6 +97,56 @@ class Users_model extends CI_Model {
         return TRUE;
     }
 
+    // ニックネーム更新
+    public function update_nickname($user_id = FALSE)
+    {
+        // ユーザーIDが渡されなかった場合FALSEを返却
+        if($user_id === FALSE)
+        { 
+            return FALSE; 
+        }
+        // 指定されたuser_idのuserを取得 自クラスのget_userはパスワードを削除するため使用しない
+        $query = $this->db->get_where($this->table, array('user_id' => $user_id));
+        $user = $query->row_array();
+        // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)FALSEを返却
+        if(is_null($user)){
+            return FALSE;
+        }
+        // UPDATEするデータを渡す
+        $nickname_new = $this->input->post('nickname');
+        $data = array('nickname' => $nickname_new);
+        // UPDATE文の実行
+        $this->db->where('user_id',$user['user_id']);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
+    // メールアドレス更新
+    public function update_mailaddress($user_id = FALSE)
+    {
+        // ユーザーIDが渡されなかった場合FALSEを返却
+        if($user_id === FALSE)
+        { 
+            return FALSE; 
+        }
+        // 指定されたuser_idのuserを取得 自クラスのget_userはパスワードを削除するため使用しない
+        $query = $this->db->get_where($this->table, array('user_id' => $user_id));
+        $user = $query->row_array();
+        // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)FALSEを返却
+        if(is_null($user)){
+            return FALSE;
+        }
+        // UPDATEするデータを渡す
+        $mailaddress_new = $this->input->post('mailaddress');
+        $data = array('nickname' => $mailaddress_new);
+        // UPDATE文の実行
+        $this->db->where('user_id',$user['user_id']);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
     // 暗号化方法を隠蔽
     private function regist_password_hash($pass)
     {

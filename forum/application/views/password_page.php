@@ -18,7 +18,7 @@
         echo form_open('mypage/pw_change'); ?>
         <h3 class="password_conf">古いパスワード<input type="password" name="password_conf"></h3>
         <h3 class="password_new">新しいパスワード<input type="password" name="password_new"></h3>
-        <input class="change_button" type="submit" name="submit" value="変更">
+        <input class="change_button" type="submit" name="submit" value="変更"/>
     </form>
     <a class="cancel_link" href="<?php echo site_url("mypage/mypage")?>">キャンセル</a>
 

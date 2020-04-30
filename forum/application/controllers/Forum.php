@@ -12,7 +12,7 @@ class Forum extends CI_Controller{
     // 全スレッド情報を取得し、スレッド一覧のページを表示
     public function index()
     {
-        // $order で並び替え方法を指定 NULLの場合はスレッド作成日(降順)
+        
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE){
             $this->session_manager->deleteSession();
