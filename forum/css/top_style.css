@@ -49,13 +49,20 @@ div.thread_link {
 	margin-left: 8%;
 	margin-right: 8%;
 	padding-top: 15px;
-	padding-left: 10px;
+	padding-left: 15px;
 	height: 80px;
 	border: 1px solid #726da8;
 	border-radius: 8px;
 }
+div.thread_link:hover {
+	border-color: #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
 div.thread_link a {
 	color: #726da8;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 span.thread_title {
 	font-size: 25px;
@@ -63,8 +70,6 @@ span.thread_title {
 p.bottom_row {
 	padding-top: 12px;
 	padding-left: 380px;
-}
-p.bottom_row span.comment_count {
 }
 p.bottom_row span.creation_datetime {
 	float: right;

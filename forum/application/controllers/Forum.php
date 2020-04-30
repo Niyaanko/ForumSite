@@ -54,7 +54,8 @@ class Forum extends CI_Controller{
             // それぞれのスレッドのコメント情報取得
             for($i = 0;$i < count($threads);$i++)
             {
-                $comments = $this->comments_model->get_count($threads[$i]['thread_id']); 
+                // コメント数取得
+                $comments = $this->comments_model->get_thread_count($threads[$i]['thread_id']); 
                 // キー comment_count でコメント数を追加
                 $threads[$i] = array_merge($threads[$i],array('comment_count' => $comments));
             }
@@ -104,11 +105,4 @@ class Forum extends CI_Controller{
         $this->load->view('footer', $data);
 
     }
-
-    public function logout()
-    {
-        $this->session_manager->deleteSession();
-        redirect(site_url('login/login'));
-    }
-
 }

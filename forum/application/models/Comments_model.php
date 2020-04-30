@@ -22,12 +22,22 @@ class Comments_model extends CI_Model {
     }
 
     // 指定スレッドの合計コメント数を取得
-    public function get_count($slug = FALSE)
+    public function get_thread_count($slug = FALSE)
     {
         // $slugが指定されていない場合0を返却
         if($slug === FALSE){ return 0; }
 
         $this->db->where('thread_id', $slug);
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+    // 指定ユーザーの投稿コメント数を取得
+    public function get_user_count($slug = FALSE)
+    {
+        // $slugが指定されていない場合0を返却
+        if($slug === FALSE){ return 0; }
+
+        $this->db->where('commenter_id', $slug);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }

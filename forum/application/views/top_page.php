@@ -16,7 +16,7 @@
             $day = $day->format('Y年m月d日 H時i分');?>
     <div class="thread_link">
         <a href="<?php echo site_url("forum/view".$thread_item['thread_id']); ?>">
-            <span class="thread_title"><?php echo $thread_item['title'] ?></span>
+            <span class="thread_title"><?php echo $thread_item['title']; ?></span>
             <p class="bottom_row">
                 <span class="coment_count">コメント数:<?php echo $thread_item['comment_count']; ?></span>
                 <span class="creation_datetime">作成日時:<?php echo $day; ?></span>
@@ -30,6 +30,6 @@
 
     <hr class="bottom_line">
 
-    <div class="page_links"><?php echo $links ?></div>
+    <div class="page_links"><?php echo $links; ?></div>
 
 </main>
