@@ -10,9 +10,38 @@ main {
 }
 h2.main_title {
 	text-align: center;
-	margin-top: 40px;
+	margin-top: 35px;
 	color: #726da8;
 	font-size: 22px;
+}
+a.logout_link {
+	position: absolute;
+	top: 5%;
+	right: 10%;
+	height: 30px;
+	width: 100px;
+	padding-top: 7px;
+	text-align: center;
+	border: 1px solid #ff0000;
+	border-radius: 3px;
+	background-color: #f87070;
+}
+a.logout_link:hover {
+	color: #cecece;
+	box-shadow: 0 0 3px #f87070;
+}
+a.top_link {
+	position: absolute;
+	top: 5%;
+	left: 10%;
+	height: 25px;
+	width: 146px;
+	color: #726da8;
+	border-bottom: 3px double #726da8;
+}
+a.top_link:hover {
+	color: #f87070;
+	border-bottom: 3px double #f87070;
 }
 table,
 th,
@@ -21,7 +50,7 @@ td {
 }
 table {
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 35px;
 	height: 75%;
 	width: 80%;
 	border-top: 3px solid #726da8;
@@ -53,12 +82,19 @@ td.change_link_td {
 a.change_link {
 	width: 60%;
 	height: 35%;
-	padding-top: 4%;
+	padding-top: 5%;
 	display: block;
 	margin: 0 auto;
 	text-align: center;
-
 	background-color: #ff8c00;
-	border: 1px solid #6a5acd;
+	border: 1px solid #be6902;
 	border-radius: 3px;
+}
+a.change_link:hover {
+	color: #cecece;
+	box-shadow: 0 0 3px #ff8c00;
+}
+span.security_comment {
+	padding-left: 30px;
+	color: red;
 }
