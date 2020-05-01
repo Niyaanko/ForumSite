@@ -48,37 +48,7 @@ class Mypage extends CI_Controller{
         if(empty($slug)){
             redirect(site_url('mypage/mypage'));
         }
-        $user = $_SESSION['user'];
-        // 検証ルールの指定
-        $config = 
-            array(
-                array(
-                    'field' => 'nickname',
-                    'label' => 'ニックネーム',
-                    'rules' => 'required|max_length[10]',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                        'max_length' => '%s は10文字以内で入力して下さい'
-                    )
-                ),
-                array(
-                    'field' => 'mailaddress',
-                    'label' => 'メールアドレス',
-                    'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email|differs['.$user['mailaddress'].']',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                        'max_length' => '%s は90文字以内で入力して下さい',
-                        'is_unique' => '%s は既に使用されています',
-                        'valid_email' => 'メールアドレスを入力して下さい',
-                        'differs' => '古いメールアドレスと異なるメールアドレスを入力してください'
-                    )
-                )
-            );
-        
-        // 検証ルールの反映
-        $this->form_validation->set_rules($config);
+        $user = $_SESSION['user'];    
 
         // 作成スレッド数の取得、セット
         $data['threads_count'] = $this->threads_model->get_user_count($user['user_id']);
@@ -90,28 +60,72 @@ class Mypage extends CI_Controller{
         {
             $data['change_label'] = 'ニックネーム';
             $data['slug'] = 'nickname';
+            // 検証ルールの指定
+            $config =
+                array( 
+                    array(
+                        'field' => 'nickname',
+                        'label' => 'ニックネーム',
+                        'rules' => 'required|max_length[10]|callback_not_equal['.$user['nickname'].']',
+                        'errors' => 
+                        array(
+                            'required' => '%s を入力していません',
+                            'max_length' => '%s は10文字以内で入力して下さい',
+                            'not_equal' => '古いニックネームと異なるものを入力してください'
+                        )
+                    ),
+                    array(
+                        'field' => 'mailaddress',
+                        'label' => 'メールアドレス'
+                    )
+                );
             // ニックネーム変更のUPDATE文を実行する無名関数の代入
             $func_update = function($func_user_id)
             {
-                return $this->users_model->update_nickname($user_id);
+                return $this->users_model->update_nickname($func_user_id);
             };
+            
         }
         // $slugがnicknameの場合
         elseif($slug === 'mailaddress')
-        {
+        {            
             $data['change_label'] = 'メールアドレス';
             $data['slug'] = 'mailaddress';
+            // 検証ルールの指定
+            $config = 
+                array(
+                    array(
+                        'field' => 'nickname',
+                        'label' => 'ニックネーム'
+                    ),
+                    array(
+                        'field' => 'mailaddress',
+                        'label' => 'メールアドレス',
+                        'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email|callback_not_equal['.$user['mailaddress'].']',
+                        'errors' => 
+                        array(
+                            'required' => '%s を入力していません',
+                            'max_length' => '%s は90文字以内で入力して下さい',
+                            'is_unique' => '%s は既に使用されています',
+                            'valid_email' => 'メールアドレスを入力して下さい',
+                            'not_equal' => '古いメールアドレスと異なるものを入力してください'
+                        )
+                    )
+                );
             // メールアドレス変更のUPDATE文を実行する無名関数の代入
             $func_update = function($func_user_id)
             {
-                return $this->users_model->update_mailaddress($user_id);
+                return $this->users_model->update_mailaddress($func_user_id);
             };
         }
         // $slugがそれ以外の場合 マイページへ遷移
         else
         {
-            redirect(site_url('mypage/mypage'));
+            show_404();
         }
+        // 検証ルールの反映
+        $this->form_validation->set_rules($config);
+        
 
         // submit 前や、不正な入力のときはフォームを表示する
         if($this->form_validation->run() === FALSE) 
@@ -119,11 +133,19 @@ class Mypage extends CI_Controller{
             $this->view_change_page($data);
         }
         // 正しく入力された場合、UPDATEメソッドを呼び出す UPDATEに成功した場合TRUE、失敗した場合FALSE
-        // を$data['success']にセットしパスワード変更ページを呼び出し
+        // その後マイページを呼び出し
         else
         {
-            $data['success'] = $func_update($user['user_id']);
-            $this->view_change_page($data);
+            $success = $func_update($user['user_id']);
+            // UPDATEが成功した場合データをセッションにセット
+            if($success === TRUE)
+            {
+                $changed_user = $this->users_model->get_user($user['user_id']);
+                $this->session_manager->addSession($changed_user);
+                redirect(site_url('mypage/mypage'));
+            }else{
+                $this->view_change_page($data);
+            }
         }
     }
 
@@ -143,7 +165,7 @@ class Mypage extends CI_Controller{
                 array(
                     'field' => 'password_conf',
                     'label' => '古いパスワード',
-                    'rules' => 'required|min_length[8]|max_length[12]',
+                    'rules' => 'required',
                     'errors' => 
                     array(
                         'required' => '%s を入力していません',
@@ -209,6 +231,21 @@ class Mypage extends CI_Controller{
         $this->load->view('header', $data);
         $this->load->view('change_page', $data);
         $this->load->view('footer', $data);
+    }
+
+    // 追加の検証ルール用メソッド
+    // 入力内容と現在のパラメータが同一であった場合FALSE
+    public function not_equal($input_str,$param_str)
+    {
+        if($input_str === $param_str)
+        {
+            $this->form_validation->set_message('not_equal', 'Do not enter the same as the old parameter.');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
     }
 
     public function logout()

@@ -13,7 +13,7 @@ class Register extends CI_Controller {
     // アカウント登録操作を行う
     public function regist()
     {
-        //検証ルールの複数指定
+        // 検証ルールの複数指定
         $config = 
             array(
                 array(

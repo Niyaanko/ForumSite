@@ -44,4 +44,13 @@ class Threads_model extends CI_Model {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    // スレッド作成 
+    public function create_thread($creator_id = FALSE)
+    {
+        // $slugが指定されていない場合0を返却
+        if($creator_id === FALSE){ return 0; }
+        
+        return ;
+    }
 }

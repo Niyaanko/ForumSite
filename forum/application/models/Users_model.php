@@ -105,18 +105,11 @@ class Users_model extends CI_Model {
         { 
             return FALSE; 
         }
-        // 指定されたuser_idのuserを取得 自クラスのget_userはパスワードを削除するため使用しない
-        $query = $this->db->get_where($this->table, array('user_id' => $user_id));
-        $user = $query->row_array();
-        // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)FALSEを返却
-        if(is_null($user)){
-            return FALSE;
-        }
         // UPDATEするデータを渡す
         $nickname_new = $this->input->post('nickname');
         $data = array('nickname' => $nickname_new);
         // UPDATE文の実行
-        $this->db->where('user_id',$user['user_id']);
+        $this->db->where('user_id', $user_id);
         $this->db->update($this->table, $data);
         // TRUEを返却
         return TRUE;
@@ -130,18 +123,11 @@ class Users_model extends CI_Model {
         { 
             return FALSE; 
         }
-        // 指定されたuser_idのuserを取得 自クラスのget_userはパスワードを削除するため使用しない
-        $query = $this->db->get_where($this->table, array('user_id' => $user_id));
-        $user = $query->row_array();
-        // 受け取った値がNULLだった場合(該当するuser_idのuserがいなかった場合)FALSEを返却
-        if(is_null($user)){
-            return FALSE;
-        }
         // UPDATEするデータを渡す
         $mailaddress_new = $this->input->post('mailaddress');
-        $data = array('nickname' => $mailaddress_new);
+        $data = array('mailaddress' => $mailaddress_new);
         // UPDATE文の実行
-        $this->db->where('user_id',$user['user_id']);
+        $this->db->where('user_id', $user_id);
         $this->db->update($this->table, $data);
         // TRUEを返却
         return TRUE;

@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <th>パスワード</th>
-                <td>********<span class="security_comment">※セキュリティ保護のため表示していません</span></td>
+                <td>********<br><span class="security_comment">※セキュリティ保護のため表示していません</span></td>
                 <td class="change_link_td">
                     <a class="change_link" href="<?php echo site_url("mypage/pw_change"); ?>">変更</a>
                 </td>

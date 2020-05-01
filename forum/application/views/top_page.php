@@ -1,6 +1,6 @@
 <main>
 
-    <p><a class="thread_create_link" href="<?php echo site_url('forum/create')?>">スレッドを作成</a></p>
+    <p><a class="thread_create_link" href="<?php echo site_url('create/create_thread')?>">スレッドを作成</a></p>
 
     <hr class="top_line">
 

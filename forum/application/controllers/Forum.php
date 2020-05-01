@@ -64,7 +64,7 @@ class Forum extends CI_Controller{
         }
         
         // タイトルを渡す
-        $data['title'] = 'イグナイト - トップページ';
+        $data['title'] = 'イグナイト - トップ';
         // トップページ画面のCSSを渡す
         $data['stylesheet'] = 'top_style.css';
         // トップページ画面を表示する

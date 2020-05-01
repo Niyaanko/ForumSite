@@ -14,23 +14,7 @@ h2.main_title {
 	color: #726da8;
 	font-size: 22px;
 }
-a.logout_link {
-	position: absolute;
-	top: 5%;
-	right: 10%;
-	height: 30px;
-	width: 100px;
-	padding-top: 7px;
-	text-align: center;
-	border: 1px solid #ff0000;
-	border-radius: 3px;
-	background-color: #f87070;
-}
-a.logout_link:hover {
-	color: #cecece;
-	box-shadow: 0 0 3px #f87070;
-}
-a.top_link {
+a.my_link {
 	position: absolute;
 	top: 5%;
 	left: 10%;
@@ -39,7 +23,7 @@ a.top_link {
 	color: #726da8;
 	border-bottom: 3px double #726da8;
 }
-a.top_link:hover {
+a.my_link:hover {
 	color: #f87070;
 	border-bottom: 3px double #f87070;
 }
@@ -48,11 +32,16 @@ th,
 td {
 	border-collapse: collapse;
 }
-table {
+form {
 	margin: 0 auto;
 	margin-top: 35px;
 	height: 80%;
 	width: 80%;
+}
+table {
+	margin: 0 auto;
+	height: 100%;
+	width: 100%;
 	border-top: 3px solid #726da8;
 	border-bottom: 3px solid #726da8;
 }
@@ -76,25 +65,61 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
 	background-color: #dedaef;
 }
-td.change_link_td {
-	width: 100px;
-}
-a.change_link {
+input.change_button {
+	float: right;
 	width: 60px;
-	height: 22px;
+	height: 25px;
 	display: block;
-	margin: 0 auto;
+	margin-right: 20px;
 	text-align: center;
 	background-color: #ff8c00;
 	border: 1px solid #be6902;
-	padding-top: 3px;
 	border-radius: 3px;
+	color: #ffffff;
 	font-size: 13px;
 }
-a.change_link:hover {
+input.change_button:hover {
 	color: #cecece;
 	box-shadow: 0 0 3px #ff8c00;
 }
+a.cancel_link {
+	display: block;
+	width: 80px;
+	height: 22px;
+	margin-right: 90px;
+	color: #ffffff;
+	background-color: #726da8;
+	border-radius: 3px;
+	padding-top: 3px;
+	text-align: center;
+	font-size: 13px;
+}
+a.cancel_link:hover {
+	color: #cecece;
+	box-shadow: 0 0 3px #726da8;
+}
+input[type="text"][disabled] {
+	background-color: transparent;
+	border-style: none;
+	color: #000000;
+	font-size: 16px;
+}
+input[type="text"]:focus {
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 3px #ff8c00;
+}
+input[type="text"]:not([disabled]) {
+	width: 330px;
+	height: 30px;
+	border: 1px solid #9c96e4;
+	border-radius: 5px;
+	padding-left: 5px;
+	color: #000000;
+	font-size: 16px;
+}
+
 span.security_comment {
 	color: red;
 }
