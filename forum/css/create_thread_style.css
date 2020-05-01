@@ -28,10 +28,10 @@ input.thread_title {
 	width: 400px;
 	height: 30px;
 	border: 1px solid #9c96e4;
+	color: #000000;
 	border-radius: 5px;
 }
 input.thread_title:focus {
-	color: #dadada;
 	outline: none;
 	border-radius: 5px;
 	border: 1px solid #ff8c00;

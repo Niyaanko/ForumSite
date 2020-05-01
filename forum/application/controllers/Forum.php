@@ -5,7 +5,7 @@ class Forum extends CI_Controller{
     {
         parent::__construct();
         $this->load->model(array('users_model','session_manager','threads_model','comments_model'));
-        $this->load->library(array('session','pagination'));
+        $this->load->library(array('session','pagination','form_validation'));
         $this->load->helper('url_helper');
     }
 
@@ -28,7 +28,7 @@ class Forum extends CI_Controller{
         // $threadsがNULLでない場合
         else
         {
-            // Forum コントローラのベースURLを定義
+            // ベースURLを定義
             $config['base_url'] = base_url().'forum/index/';
 
             // 合計データ数を定義
@@ -81,21 +81,83 @@ class Forum extends CI_Controller{
             $this->session_manager->deleteSession();
             redirect(site_url('login/login'));
         }
-        
+        // スレッドの情報が指定されていない場合トップページを表示する
+        if($slug === NULL)
+        {
+            redirect(site_url('forum/index'));
+        }
         // 指定したスレッドの情報を取得
-        $data['thread_item'] = $this->threads_model->get_threads($slug); 
+        $thread = $this->threads_model->get_threads($slug); 
         
         // 指定されたスレッドが存在しなければ404表示
-        if(empty($data['thread_item']))
+        if(empty($thread))
         {
             show_404();
         }
 
-        // 指定されたスレッドの全コメント情報を取得
-        $data['comments'] = $this->comments_model->get_comments($slug);
+        // 検証ルールの指定
+        $config = 
+        array(
+            'field' => 'text',
+            'label' => 'コメントテキスト',
+            'rules' => 'required|max_length[100]',
+            'errors' => 
+            array(
+                'required' => '%s を入力していません',
+                'max_length' => '%s は100文字以内で入力して下さい',
+            )
+        );
+            
+        // 検証ルールのセット
+        $this->form_validation->set_rules($config);
+        
+        // 正しく入力されたときのみDBにコメント追加
+        if($this->form_validation->run() === TRUE)
+        {
+            $user = $_SESSION['user'];
+            $this->comments_model->add_comments($user['user_id'], $thread['thread_id']);
+        }
 
+        // ベースURLを定義
+        $config['base_url'] = base_url().'forum/view/'.$thread['thread_id'].'/';
+
+        // 合計コメント数を定義
+        $config['total_rows'] = $this->comments_model->get_thread_count($thread['thread_id']);
+
+        // 1ページに表示するコメントの数を定義
+        $config['per_page'] = 100;
+
+        // ページネーションで生成されたリンク クラス属性の追加 "page_link" 
+        $config['attributes'] = array('class' => 'page_link');
+
+        // 選択中のページ番号の前後に表示したい "数字" リンクの数を定義
+        // たとえば、3を指定すると7ページ目を表示しているとき < 4 5 6 7 8 9 10 > となる
+        $config["num_links"] = 3;
+
+        // configを反映
+        $this->pagination->initialize($config);
+
+        // ページリンクの生成
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data["links"] = $this->pagination->create_links();
+
+        // 範囲を指定してコメントを取得
+        $comments = $this->comments_model->get_comments_limit($config["per_page"], $page);
+
+        // それぞれのコメントのユーザー名取得
+        for($i = 0;$i < count($comments);$i++)
+        {
+            // ユーザー取得
+            $commentor = $this->users_model->get_user($comments[$i]['commentor_id']); 
+            // キー comment_count でコメント数を追加
+            $comments[$i] = array_merge($comments[$i],array('nickname' => $commentor['nickname']));
+        }
+        // スレッドデータのセット
+        $data['comments'] = $comments;
+        $data['thread'] = $thread;
+        
         // タイトルを渡す
-        $data['title'] = "イグナイト - {$data['thread_item']['title']}";
+        $data['title'] = "イグナイト - {$thread['title']}";
         // トップページ画面のCSSを渡す
         $data['stylesheet'] = 'thread_style.css';
 

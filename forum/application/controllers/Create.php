@@ -33,7 +33,7 @@ class Create extends CI_Controller{
 
         // 検証ルールのセット
         $this->form_validation->set_rules($config);
-        
+
         // submit 前や、不正な入力のときはフォームを表示する
         if($this->form_validation->run() === FALSE)
         {
@@ -48,8 +48,9 @@ class Create extends CI_Controller{
 
         // 正しく入力された場合、INSERT文を実行し作成したスレッドのページを表示する
         }else{
+            $user = $_SESSION['user'];
             // スレッドの作成、スレッドIDの取得
-            $thread_id = "";
+            $thread_id = $this->threads_model->create_thread($user['user_id']);
             // 作成したスレッドのページを表示する
             redirect(site_url('forum/view/'.$thread_id));
         }

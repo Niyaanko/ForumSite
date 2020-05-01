@@ -23,7 +23,7 @@ class Threads_model extends CI_Model {
         return $query->row_array();
     }
 
-    // limitに取得するスレッド数を指定
+    // 範囲を指定してスレッドを取得
     public function get_threads_limit($limit, $start)
     {
         // $limitに表示する最大数 $startに開始位置
@@ -50,7 +50,13 @@ class Threads_model extends CI_Model {
     {
         // $slugが指定されていない場合0を返却
         if($creator_id === FALSE){ return 0; }
-        
-        return ;
+        $data = array(
+            'title' => $this->input->post('title'),
+            'creation_datetime' => date('Y/m/d H:i:s'),
+            'creator_id' => $creator_id
+        );
+        $this->db->insert($this->table, $data);
+        // 挿入したデータのIDを返却
+        return $this->db->insert_id();
     }
 }
