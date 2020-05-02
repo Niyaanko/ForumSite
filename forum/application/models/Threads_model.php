@@ -19,7 +19,7 @@ class Threads_model extends CI_Model {
             return $query->result_array();
         }
 
-        $query = $this->db->get($this->table, array('thread_id' => $slug));
+        $query = $this->db->get_where($this->table, array('thread_id' => $slug));
         return $query->row_array();
     }
 

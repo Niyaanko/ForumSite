@@ -43,9 +43,9 @@ class Comments_model extends CI_Model {
     }
 
     // 範囲を指定してコメントを取得
-    public function get_comments_limit($limit = FALSE, $start = FALSE)
+    public function get_comments_limit($limit = FALSE, $start = FALSE,$slug = FALSE)
     {
-        if($limit === FALSE || $start === FALSE)
+        if($limit === FALSE || $start === FALSE || $thread_id = FALSE)
         {
             return NULL;
         }
@@ -53,8 +53,8 @@ class Comments_model extends CI_Model {
         $this->db->limit($limit, $start);
 
         // スレッド作成日時で並び替え(降順)
-        $this->db->order_by('creation_datetime','ASC');
-        $query = $this->db->get($this->table);
+        $this->db->order_by('comment_datetime','ASC');
+        $query = $this->db->get_where($this->table, array('thread_id' => $slug));
         return $query->result_array();
     }
 
@@ -63,7 +63,7 @@ class Comments_model extends CI_Model {
         // $slugが指定されていない場合0を返却
         if($commenter_id === FALSE || $thread_id === FALSE){ return 0; }
         $data = array(
-            'text' => $this->input->post('text'),
+            'text' => $this->input->post('comment'),
             'comment_datetime' => date('Y/m/d H:i:s'),
             'commenter_id' => $commenter_id,
             'thread_id' => $thread_id
@@ -72,3 +72,4 @@ class Comments_model extends CI_Model {
         // 挿入したデータのIDを返却
         return $this->db->insert_id();
     }
+}

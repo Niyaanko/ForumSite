@@ -42,7 +42,11 @@ class Forum extends CI_Controller{
             
             // 選択中のページ番号の前後に表示したい "数字" リンクの数を定義
             // たとえば、3を指定すると7ページ目を表示しているとき < 4 5 6 7 8 9 10 > となる
-            $config["num_links"] = 3;
+            $config['num_links'] = 3;
+
+            // 最初のページへのリンクと最後のページへのリンクを非表示
+            $config['first_link'] = FALSE;
+            $config['last_link'] = FALSE;
 
             // configを反映
             $this->pagination->initialize($config);
@@ -94,22 +98,16 @@ class Forum extends CI_Controller{
         {
             show_404();
         }
-
-        // 検証ルールの指定
-        $config = 
-        array(
-            'field' => 'text',
-            'label' => 'コメントテキスト',
-            'rules' => 'required|max_length[100]',
-            'errors' => 
-            array(
-                'required' => '%s を入力していません',
-                'max_length' => '%s は100文字以内で入力して下さい',
-            )
-        );
             
         // 検証ルールのセット
-        $this->form_validation->set_rules($config);
+        $this->form_validation->set_rules(
+                'comment','コメントテキスト',
+                'required|max_length[100]',
+                array(
+                    'required' => '%s を入力していません',
+                    'max_length' => '%s は100文字以内で入力して下さい',
+                )
+            );
         
         // 正しく入力されたときのみDBにコメント追加
         if($this->form_validation->run() === TRUE)
@@ -134,21 +132,25 @@ class Forum extends CI_Controller{
         // たとえば、3を指定すると7ページ目を表示しているとき < 4 5 6 7 8 9 10 > となる
         $config["num_links"] = 3;
 
+        // 最初のページへのリンクと最後のページへのリンクを非表示
+        $config['first_link'] = FALSE;
+        $config['last_link'] = FALSE;
+
         // configを反映
         $this->pagination->initialize($config);
 
         // ページリンクの生成
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $data["links"] = $this->pagination->create_links();
 
         // 範囲を指定してコメントを取得
-        $comments = $this->comments_model->get_comments_limit($config["per_page"], $page);
+        $comments = $this->comments_model->get_comments_limit($config["per_page"], $page, $thread['thread_id']);
 
         // それぞれのコメントのユーザー名取得
         for($i = 0;$i < count($comments);$i++)
         {
             // ユーザー取得
-            $commentor = $this->users_model->get_user($comments[$i]['commentor_id']); 
+            $commentor = $this->users_model->get_user($comments[$i]['commenter_id']); 
             // キー comment_count でコメント数を追加
             $comments[$i] = array_merge($comments[$i],array('nickname' => $commentor['nickname']));
         }

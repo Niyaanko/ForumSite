@@ -1,0 +1,97 @@
+/* ページスタイル */
+main {
+	min-height: 673px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 673px;
+	width: 52%;
+	background-color: #dedaef;
+	position: relative;
+	margin: 0 auto;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+h2.thread_title {
+	padding-top: 40px;
+	text-align: center;
+	color: #726da8;
+}
+hr {
+	margin: 0 auto;
+	width: 90%;
+	border-width: 1px 0 0 0;
+	border-color: #726da8;
+	border-style: dotted;
+}
+hr.top_line {
+	margin-top: 55px;
+}
+hr.bottom_line {
+	margin-bottom: 55px;
+}
+/* メインコンテンツ */
+h3.comment_none {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	color: #726da8;
+}
+div.thread_content {
+	margin: 50px auto 50px auto;
+	width: 70%;
+}
+div.comment_content {
+	width: 100%;
+	min-height: 100px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 100px;
+	margin: 20px 0;
+	padding: 5px;
+	background-color: #bebefa;
+	border: 1px solid #726da8;
+	border-radius: 7px;
+}
+pre.comment_text {
+	white-space: pre-wrap;
+}
+/* 入力フォーム */
+form {
+	bottom: 100px;
+	padding-bottom: 100px;
+	width: 100%;
+	text-align: center;
+}
+form h3 {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	color: #726da8;
+}
+textarea.comment_input {
+	resize: none;
+	width: 580px;
+	height: 120px;
+	padding-left: 5px;
+	padding-top: 5px;
+	border: 1px solid #c56c00;
+	border-radius: 3px;
+}
+textarea.comment_input:focus {
+	outline: none;
+	box-shadow: 0 0 2px #ff8c00;
+}
+input.send_button {
+	margin: 0 auto;
+	width: 100px;
+	height: 30px;
+	margin-top: 10px;
+	font-size: 17px;
+	color: #ffffff;
+	background-color: #ff8c00;
+	border: 1px solid #c56c00;
+	border-radius: 3px;
+}
+input.send_button:hover {
+	color: #dadada;
+	box-shadow: 0 0 2px #ff8c00;
+}
