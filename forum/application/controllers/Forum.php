@@ -163,6 +163,10 @@ class Forum extends CI_Controller{
         // トップページ画面のCSSを渡す
         $data['stylesheet'] = 'thread_style.css';
 
+        // コメント投稿後に更新したとき、フォームが再送信されるのを防ぐ
+        if($this->input->post('comment')){
+            redirect(site_url('forum/view/'.$thread['thread_id']));
+        }
         // スレッドページ画面を表示する
         $this->load->view('header', $data);
         $this->load->view('thread_page', $data);

@@ -1,6 +1,6 @@
 <main>
 
-    <h2 class="thread_title" ><?php echo $thread['title']; ?></h2>
+    <h2 class="thread_title" ><?php echo html_escape($thread['title']); ?></h2>
     <hr class="top_line">
     <div class="thread_content">
     <?php 
@@ -16,10 +16,10 @@
             $day = $day->format('Y年m月d日 H時i分');?>
             <p class="top_row">
                 <span class="comment_num"><?php echo $comment_item['comment_id']; ?>.</span>
-                <span class="coment_count">投稿者:<?php echo $comment_item['nickname']; ?></span>
+                <span class="coment_count">投稿者:<?php echo html_escape($comment_item['nickname']); ?></span>
                 <span class="creation_datetime">投稿日時:<?php echo $day; ?></span>
             </p>
-            <pre class="comment_text"><?php echo $comment_item['text']; ?></pre>
+            <pre class="comment_text"><?php echo html_escape($comment_item['text']); ?></pre>
         </div>
     <?php
     } ?> 
@@ -42,4 +42,5 @@
         echo form_textarea($data); ?><br>
         <input class="send_button" type="submit" name="submit" value="投稿">
     </form>
+    <div class="page_links"><?php echo $links; ?></div>
 </main>

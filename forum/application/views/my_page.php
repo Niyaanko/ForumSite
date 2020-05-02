@@ -9,14 +9,14 @@
             $user = $_SESSION['user']; ?>
             <tr>
                 <th>ニックネーム</th>
-                <td><?php echo $user['nickname']; ?></td>
+                <td><?php echo html_escape($user['nickname']); ?></td>
                 <td class="change_link_td">
                     <a class="change_link" href="<?php echo site_url("mypage/change/nickname"); ?>">変更</a>
                 </td>
             </tr>
             <tr>
                 <th>メールアドレス</th>
-                <td><?php echo $user['mailaddress']; ?></td>
+                <td><?php echo html_escape($user['mailaddress']); ?></td>
                 <td class="change_link_td">
                     <a class="change_link" href="<?php echo site_url("mypage/change/mailaddress"); ?>">変更</a>
                 </td>
