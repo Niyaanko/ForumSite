@@ -99,6 +99,13 @@ class Forum extends CI_Controller{
         {
             show_404();
         }
+
+        // スレッド作成者の取得
+        $creator = $this->users_model->get_user($thread['creator_id']);
+        // NULLでなければニックネームをセット
+        if(!empty($creator)){
+            $thread['creator_nickname'] = $creator['nickname'];
+        }
             
         // 検証ルールのセット
         $this->form_validation->set_rules(

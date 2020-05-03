@@ -1,6 +1,7 @@
 <main>
     <a class="top_link" href="<?php echo site_url("forum/index"); ?>">トップページへ戻る</a>
     <h2 class="thread_title" ><?php echo html_escape($thread['title']); ?></h2>
+    <h3 class="thread_creator" >スレッド作成者：<?php echo html_escape($thread['creator_nickname']); ?></h3>
     <hr class="top_line">
     <div class="thread_content">
     <?php 
@@ -19,6 +20,7 @@
                 <span class="coment_count">投稿者:<?php echo html_escape($comment_item['nickname']); ?></span>
                 <span class="creation_datetime">投稿日時:<?php echo $day; ?></span>
             </p>
+            <hr class="comment_line">
             <pre class="comment_text"><?php echo html_escape($comment_item['text']); ?></pre>
         </div>
     <?php
