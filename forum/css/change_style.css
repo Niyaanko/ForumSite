@@ -119,7 +119,17 @@ input[type="text"]:not([disabled]) {
 	color: #000000;
 	font-size: 16px;
 }
-
 span.security_comment {
+	color: red;
+}
+/* エラーメッセージ */
+div.error_nickname {
+	position: absolute;
+	left: 310px;
+	color: red;
+}
+div.error_mail {
+	position: absolute;
+	left: 310px;
 	color: red;
 }

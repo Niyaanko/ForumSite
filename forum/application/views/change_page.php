@@ -9,11 +9,11 @@
             <tr>
                 <th>ニックネーム</th>
                 <td>
-                    <input type="text" name="nickname" value="<?php echo $user['nickname']; ?>"
+                    <input type="text" name="nickname" value="<?php echo html_escape(set_value('nickname')); ?>"
                         <?php 
                         // $slugがnicknameじゃない場合はdisabled属性を付与
                         if($slug !== 'nickname'){?> disabled="disabled" <?php } ?>>
-                    <?php echo form_error('nickname'); ?>
+                    <div class="error_nickname"><?php echo form_error('nickname'); ?></div>
                 </td>
                 <td>
                     <?php 
@@ -27,11 +27,11 @@
             <tr>
                 <th>メールアドレス</th>
                 <td>
-                    <input type="text" name="mailaddress" value="<?php echo $user['mailaddress']; ?>"
+                    <input type="text" name="mailaddress" value="<?php echo html_escape(set_value('mailaddress')); ?>"
                         <?php 
                         // $slugがmailaddressじゃない場合はdisabled属性を付与
                         if($slug !== 'mailaddress'){?> disabled="disabled" <?php } ?>>
-                    <?php echo form_error('mailaddress'); ?>
+                    <div class="error_mail"><?php echo form_error('mailaddress'); ?></div>
                 </td>
                 <td>
                     <?php 

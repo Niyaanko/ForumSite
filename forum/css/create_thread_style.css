@@ -8,6 +8,12 @@ main {
 	border-left: 1px dotted #6a5acd;
 	border-right: 1px dotted #6a5acd;
 }
+div.error_title {
+	position: absolute;
+	top: 400px;
+	left: 300px;
+	color: red;
+}
 h2.form_title {
 	margin-top: 180px;
 	text-align: center;

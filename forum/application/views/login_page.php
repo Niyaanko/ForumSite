@@ -2,7 +2,7 @@
 
     <?php echo form_open("login/login"); ?>
         <h2 class="form_title">ログイン</h2>
-        <h3 class="login_mailaddress">メールアドレス<input type="text" name="mailaddress" value="<?php echo set_value('mailaddress'); ?>"placeholder="メールアドレスを入力" required></h3>
+        <h3 class="login_mailaddress">メールアドレス<input type="text" name="mailaddress" value="<?php echo html_escape(set_value('mailaddress')); ?>"placeholder="メールアドレスを入力" required></h3>
         <div class="error_mail"><?php echo form_error('mailaddress'); ?></div>
         <h3 class="login_password">パスワード<input type="password" name="password" placeholder="パスワードを入力" required></h3>
         <p class="error_pw"><?php echo form_error('password'); ?></p>

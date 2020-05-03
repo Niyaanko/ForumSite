@@ -6,7 +6,7 @@
 
     <?php echo form_open("register/regist"); ?>
         <h2 class="form_title">アカウント登録</h2>
-        <h3 class="regist_mailaddress">メールアドレス<input type="text" name="mailaddress" value="<?php echo set_value('mailaddress'); ?>" placeholder="メールアドレスを入力" maxlength="90" required></h3>
+        <h3 class="regist_mailaddress">メールアドレス<input type="text" name="mailaddress" value="<?php echo html_escape(set_value('mailaddress')); ?>" placeholder="メールアドレスを入力" maxlength="90" required></h3>
         <div class="error_mail"><?php echo form_error('mailaddress'); ?></div>
         <h3 class="regist_password">パスワード<input type="password" name="password" maxlength="12" placeholder="8文字以上12文字以内で入力" required></h3>
         <div class="error_pw"><?php echo form_error('password'); ?></div>
