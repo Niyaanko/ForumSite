@@ -1,5 +1,5 @@
 <main>
-
+    <a class="top_link" href="<?php echo site_url("forum/index"); ?>">トップページへ戻る</a>
     <h2 class="thread_title" ><?php echo html_escape($thread['title']); ?></h2>
     <hr class="top_line">
     <div class="thread_content">
@@ -42,5 +42,6 @@
         echo form_textarea($data); ?><br>
         <input class="send_button" type="submit" name="submit" value="投稿">
     </form>
+    <a class="top_link_bottom" href="<?php echo site_url("forum/index"); ?>">トップページへ戻る</a>
     <div class="page_links"><?php echo $links; ?></div>
 </main>

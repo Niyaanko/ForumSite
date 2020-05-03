@@ -1,12 +1,13 @@
 <main>
-    <p><a class="thread_create_link" href="<?php echo site_url('create/create')?>">スレッドを作成</a></p>
+    <div class="top_space"><a class="thread_create_link" href="<?php echo site_url('create/create')?>">スレッドを作成</a></div>
     <hr class="top_line">
     <?php 
     // msg(スレッドが存在しないメッセージ)がセットされている場合メッセージのみ表示
-    if(isset($msg)){ 
-        echo $msg; 
-    // msg(スレッドが存在しないメッセージ)がセットされていない場合スレッドを10件ずつ表示
+    if(isset($msg)){ ?>
+        <h3 class="msg_none"><?php echo $msg; ?></h3>
+    <?php 
     }else{
+        // msg(スレッドが存在しないメッセージ)がセットされていない場合スレッドを10件ずつ表示
         // $threadsのクエリの数だけスレッド表示
         foreach($threads as $thread_item){
             $day = new DateTime($thread_item['creation_datetime']);
@@ -26,6 +27,6 @@
     } ?>
 
     <hr class="bottom_line">
-    <div class="page_links"><?php echo $links; ?></div>
+    <div class="page_links"><?php if(isset($links)){echo $links; } ?></div>
 
 </main>

@@ -102,3 +102,16 @@ p.login_link a {
 p.login_link a:hover {
 	text-decoration-line: underline;
 }
+/* エラーメッセージ */
+div.error_mail,
+div.error_pw {
+	position: absolute;
+	left: 417px;
+	color: red;
+}
+div.error_mail {
+	top: 340px;
+}
+div.error_pw {
+	top: 420px;
+}

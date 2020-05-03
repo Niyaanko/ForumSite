@@ -5,14 +5,17 @@
         <meta charset="UTF-8">
         <!-- css -->
             <!-- header -->
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/header_style.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/header_style.css" type="text/css" />
             <!-- footer -->
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/footer_style.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/footer_style.css" type="text/css" />
             <!--  body  -->
         <?php if(isset($stylesheet)){ ?>
         <link rel="stylesheet" href="<?php echo base_url() ?>css/<?php echo $stylesheet ?>" type="text/css" />
         <?php } ?>
         <!-- js -->
+        <?php if(isset($js)){ ?>
+        <script type="text/javascript" src="<?php echo base_url(); ?>js/<?php echo $js; ?>"></script>
+        <?php } ?>
     </head>
 
     <body>

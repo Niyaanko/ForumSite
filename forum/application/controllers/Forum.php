@@ -20,10 +20,11 @@ class Forum extends CI_Controller{
         }
         // 全スレッド情報を取得
         $threads = $this->threads_model->get_threads(); 
+
         // $threadsがNULLの場合
         if(empty($threads))
         {
-            $data['msg'] = 'スレッドが存在しません';
+            $data['msg'] = 'まだスレッドがありません';
         }
         // $threadsがNULLでない場合
         else

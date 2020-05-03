@@ -1,30 +1,38 @@
 main {
-	position: relative;
-	background-color: #dedaef;
-	margin: 0 auto;
+	min-height: 673px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 673px;
 	width: 52%;
-	height: 1500px;
-	overflow: hidden;
+	background-color: #dedaef;
+	position: relative;
+	margin: 0 auto;
 	border-left: 1px dotted #6a5acd;
 	border-right: 1px dotted #6a5acd;
 }
-.thread_create_link {
-	position: absolute;
-	text-decoration: none;
+div.top_space {
 	text-align: center;
-	top: 17px;
-	left: 415px;
-	padding-top: 6px;
-	width: 170px;
+	width: 100%;
+}
+a.thread_create_link {
+	display: inline-block;
+	margin-top: 50px;
 	height: 30px;
-	font-size: 15px;
-	color: #ffffff;
+	width: 170px;
 	background-color: #ff8c00;
-	border: 0px;
-	border-radius: 3px;
+	border-radius: 7px;
+	border: 1px solid #c86e00;
+	padding-top: 7px;
+	color: #ffffff;
 }
 .thread_create_link:hover {
 	color: #dadada;
+}
+.msg_none {
+	margin-top: 150px;
+	margin-bottom: 150px;
+	color: #726da8;
+	text-align: center;
 }
 hr {
 	margin: 0 auto;
@@ -34,13 +42,10 @@ hr {
 	border-style: dotted;
 }
 hr.top_line {
-	margin-top: 70px;
-	margin-bottom: 60px;
+	margin-top: 55px;
 }
 hr.bottom_line {
-	position: absolute;
-	top: 95%;
-	left: 5%;
+	margin-bottom: 55px;
 }
 div.thread_link {
 	background-color: #d4ceef;
@@ -80,12 +85,11 @@ a.page_link {
 	color: #726da8;
 }
 .page_links {
-	position: absolute;
-	bottom: 1.8%;
-	left: 50%;
-	transform: translateX(-50%);
-	-webkit-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 50px;
 }
 .page_links strong {
 	font-weight: normal;

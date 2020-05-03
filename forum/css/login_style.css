@@ -81,3 +81,17 @@ p.regist_link a {
 p.regist_link a:hover {
 	text-decoration-line: underline;
 }
+/* エラーメッセージ */
+div.error_mail {
+	position: absolute;
+	top: 340px;
+	left: 417px;
+	color: red;
+}
+p.error_pw,
+p.error {
+	position: absolute;
+	top: 430px;
+	left: 417px;
+	color: red;
+}
