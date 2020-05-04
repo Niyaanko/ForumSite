@@ -12,29 +12,26 @@ class Login extends CI_Controller {
     public function login()
     {
         //検証ルールの複数指定
-        $config = 
+        $config = array( 
             array(
-                array(
-                    'field' => 'mailaddress',
-                    'label' => 'メールアドレス',
-                    'rules' => 'required|max_length[90]|valid_email',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                        'max_length' => '%s は90文字以内で入力して下さい',
-                        'valid_email' => 'メールアドレスを入力して下さい'
-                    )
-                ),
-                array(
-                    'field' => 'password',
-                    'label' => 'パスワード',
-                    'rules' => 'required',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                    )
+            'field' => 'mailaddress',
+            'label' => 'メールアドレス',
+            'rules' => 'required|max_length[90]|valid_email',
+            'errors' => array(
+                'required' => '%s を入力していません',
+                'max_length' => '%s は90文字以内で入力して下さい',
+                'valid_email' => 'メールアドレスを入力して下さい'
                 )
-            );
+            ),
+            array(
+                'field' => 'password',
+                'label' => 'パスワード',
+                'rules' => 'required',
+                'errors' => array(
+                    'required' => '%s を入力していません',
+                )
+            )
+        );
         // 検証ルールの反映
         $this->form_validation->set_rules($config);
 

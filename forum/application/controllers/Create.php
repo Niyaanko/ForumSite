@@ -19,12 +19,11 @@ class Create extends CI_Controller {
         }
 
         // 検証ルールのセット
-        $this->form_validation->set_rules('title','タイトル','required|max_length[20]',
-                        array(
-                            'required' => '%s を入力していません',
-                            'max_length' => '%s は20文字以内で入力して下さい'
-                        )
-                    );
+        $this->form_validation->set_rules('title','タイトル','required|max_length[20]',array(
+            'required' => '%s を入力していません',
+            'max_length' => '%s は20文字以内で入力して下さい'
+            )
+        );
 
         // submit 前や、不正な入力のときはフォームを表示する
         if($this->form_validation->run() === FALSE)

@@ -12,7 +12,6 @@ class Forum extends CI_Controller{
     // 全スレッド情報を取得し、スレッド一覧のページを表示
     public function index()
     {
-        
         // セッションの有無を判定　なかった場合ログインページへ
         if($this->session_manager->isSession() === FALSE){
             $this->session_manager->deleteSession();
@@ -29,14 +28,63 @@ class Forum extends CI_Controller{
         // $threadsがNULLでない場合
         else
         {
+            // 1ページに表示するスレッドの数
+            $per_page = 10;
+
+            // 現在のページ数取得
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            // [スレッドを検索]フォームから検索ワード取得
+            $search_val = $this->input->post('search');
+            if(!empty($search_val))
+            {
+                $this->session_manager->addSearchSession($search_val);
+            }
+            elseif($this->session_manager->isSearchSession())
+            {
+                $search_val = $_SESSION['search'];
+            }
+            else
+            {
+                $search_val = NULL;
+            }
+
+            // 検索ワードがない場合は全スレッド、
+            // 検索ワードがある場合検索にヒットしたスレッドの数を取得
+            $thread_count = $this->threads_model->get_thread_count($search_val);
+
+            // 初期値
+            $sort = 'creation_datetime-DESC';
+            // フォームからプルダウンの値を受け取った場合並び替え情報取得
+            if(!empty($this->input->post('sorts')))
+            {
+                // フォームから並び替え情報を取得
+                $sort = $this->input->post('sorts');
+            }
+            elseif($this->session_manager->isSortSession())
+            {
+                // セッションから並び替え情報を取得
+                $sort = $_SESSION['sort'];
+            }
+            // 並び替え情報をセッションにセット
+            $this->session_manager->addSortSession($sort);
+            // - で分割 [0]に並び替えのキー,[1]にDESC or ASCが格納
+            $pulldown_arr = explode("-", $sort);
+
+            // 条件を指定してスレッドを取得
+            $threads = $this->threads_model->get_threads_range(
+                $per_page, $page, $pulldown_arr[0], $pulldown_arr[1],$search_val);
+
+            $data['threads'] = $threads;
+
             // ベースURLを定義
             $config['base_url'] = base_url().'forum/index/';
 
             // 合計データ数を定義
-            $config['total_rows'] = count($threads);
+            $config['total_rows'] = $thread_count;
 
             // 1ページに表示するスレッドの数を定義
-            $config['per_page'] = 10;
+            $config['per_page'] = $per_page;
 
             // ページネーションで生成されたリンク クラス属性の追加 "page_link" 
             $config['attributes'] = array('class' => 'page_link');
@@ -52,22 +100,9 @@ class Forum extends CI_Controller{
             // configを反映
             $this->pagination->initialize($config);
 
-            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data["links"] = $this->pagination->create_links();
-            $threads = $this->threads_model->get_threads_limit($config["per_page"], $page);
-
-            // それぞれのスレッドのコメント情報取得
-            for($i = 0;$i < count($threads);$i++)
-            {
-                // コメント数取得
-                $comments = $this->comments_model->get_thread_count($threads[$i]['thread_id']); 
-                // キー comment_count でコメント数を追加
-                $threads[$i] = array_merge($threads[$i],array('comment_count' => $comments));
-            }
-            // スレッドデータのセット
-            $data['threads'] = $threads;
+            $data['links'] = $this->pagination->create_links();
         }
-        
+
         // タイトルを渡す
         $data['title'] = 'イグナイト - トップ';
         // トップページ画面のCSSを渡す
@@ -109,13 +144,13 @@ class Forum extends CI_Controller{
             
         // 検証ルールのセット
         $this->form_validation->set_rules(
-                'comment','コメントテキスト',
-                'required|max_length[100]',
-                array(
-                    'required' => '%s を入力していません',
-                    'max_length' => '%s は100文字以内で入力して下さい',
-                )
-            );
+            'comment','コメントテキスト',
+            'required|max_length[100]',
+            array(
+                'required' => '%s を入力していません',
+                'max_length' => '%s は100文字以内で入力して下さい',
+            )
+        );
         
         // 正しく入力されたときのみDBにコメント追加
         if($this->form_validation->run() === TRUE)
@@ -181,4 +216,11 @@ class Forum extends CI_Controller{
         $this->load->view('footer', $data);
 
     }
+    // 検索クリア
+    public function clear()
+    {
+        $this->session_manager->deleteSearchSession();
+        redirect(site_url('forum/index'));
+    }
+
 }

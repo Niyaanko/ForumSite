@@ -61,24 +61,23 @@ class Mypage extends CI_Controller{
             $data['change_label'] = 'ニックネーム';
             $data['slug'] = 'nickname';
             // 検証ルールの指定
-            $config =
-                array( 
+            $config = array( 
+                array(
+                    'field' => 'nickname',
+                    'label' => 'ニックネーム',
+                    'rules' => 'required|max_length[10]|callback_not_equal['.$user['nickname'].']',
+                    'errors' => 
                     array(
-                        'field' => 'nickname',
-                        'label' => 'ニックネーム',
-                        'rules' => 'required|max_length[10]|callback_not_equal['.$user['nickname'].']',
-                        'errors' => 
-                        array(
-                            'required' => '%s を入力していません',
-                            'max_length' => '%s は10文字以内で入力して下さい',
-                            'not_equal' => '古いニックネームと異なるものを入力してください'
-                        )
-                    ),
-                    array(
-                        'field' => 'mailaddress',
-                        'label' => 'メールアドレス'
+                        'required' => '%s を入力していません',
+                        'max_length' => '%s は10文字以内で入力して下さい',
+                        'not_equal' => '古いニックネームと異なるものを入力してください'
                     )
-                );
+                ),
+                array(
+                    'field' => 'mailaddress',
+                    'label' => 'メールアドレス'
+                )
+            );
             // ニックネーム変更のUPDATE文を実行する無名関数の代入
             $func_update = function($func_user_id)
             {
@@ -92,26 +91,24 @@ class Mypage extends CI_Controller{
             $data['change_label'] = 'メールアドレス';
             $data['slug'] = 'mailaddress';
             // 検証ルールの指定
-            $config = 
+            $config = array(
                 array(
-                    array(
-                        'field' => 'nickname',
-                        'label' => 'ニックネーム'
-                    ),
-                    array(
-                        'field' => 'mailaddress',
-                        'label' => 'メールアドレス',
-                        'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email|callback_not_equal['.$user['mailaddress'].']',
-                        'errors' => 
-                        array(
-                            'required' => '%s を入力していません',
-                            'max_length' => '%s は90文字以内で入力して下さい',
-                            'is_unique' => '%s は既に使用されています',
-                            'valid_email' => 'メールアドレスを入力して下さい',
-                            'not_equal' => '古いメールアドレスと異なるものを入力してください'
-                        )
+                    'field' => 'nickname',
+                    'label' => 'ニックネーム'
+                ),
+                array(
+                    'field' => 'mailaddress',
+                    'label' => 'メールアドレス',
+                    'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email|callback_not_equal['.$user['mailaddress'].']',
+                    'errors' => array(
+                        'required' => '%s を入力していません',
+                        'max_length' => '%s は90文字以内で入力して下さい',
+                        'is_unique' => '%s は既に使用されています',
+                        'valid_email' => 'メールアドレスを入力して下さい',
+                        'not_equal' => '古いメールアドレスと異なるものを入力してください'
                     )
-                );
+                )
+            );
             // メールアドレス変更のUPDATE文を実行する無名関数の代入
             $func_update = function($func_user_id)
             {
@@ -160,30 +157,29 @@ class Mypage extends CI_Controller{
         }
 
         // 検証ルールの指定
-        $config = 
+        $config = array(
             array(
+                'field' => 'password_conf',
+                'label' => '古いパスワード',
+                'rules' => 'required',
+                'errors' => 
                 array(
-                    'field' => 'password_conf',
-                    'label' => '古いパスワード',
-                    'rules' => 'required',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                    )
-                ),
-                array(
-                    'field' => 'password_new',
-                    'label' => '新しいパスワード',
-                    'rules' => 'required|min_length[8]|max_length[12]|differs[password_conf]',
-                    'errors' => 
-                    array(
-                        'required' => '%s を入力していません',
-                        'min_length' => '%s は8文字以上で入力して下さい',
-                        'max_length' => '%s は12文字以内で入力して下さい',
-                        'differs' => '新しいパスワードは古いパスワードと異なるものを入力してください'
-                    )
+                    'required' => '%s を入力していません',
                 )
-            );
+            ),
+            array(
+                'field' => 'password_new',
+                'label' => '新しいパスワード',
+                'rules' => 'required|min_length[8]|max_length[12]|differs[password_conf]',
+                'errors' => 
+                array(
+                    'required' => '%s を入力していません',
+                    'min_length' => '%s は8文字以上で入力して下さい',
+                    'max_length' => '%s は12文字以内で入力して下さい',
+                    'differs' => '新しいパスワードは古いパスワードと異なるものを入力してください'
+                )
+            )
+        );
         
         // 検証ルールの反映
         $this->form_validation->set_rules($config);
