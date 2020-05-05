@@ -89,6 +89,16 @@ hr.comment_line {
 	border-color: grey;
 	border-style: solid;
 }
+span.report_link {
+	float: right;
+}
+span.report_link a {
+	color: #ffffff;
+	color: #5f5b8b;
+}
+span.report_link a:hover {
+	color: #ff0000;
+}
 /* 入力フォーム */
 form {
 	bottom: 100px;

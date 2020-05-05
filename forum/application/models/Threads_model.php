@@ -26,7 +26,6 @@ class Threads_model extends CI_Model {
     // 全スレッド数を取得 $slugが指定されていた場合検索に引っかかった数を取得
     public function get_thread_count($slug = NULL)
     {
-
         if(!empty($slug)){
             $this->db->like('title', $slug);
         }

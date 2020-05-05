@@ -1,0 +1,120 @@
+main {
+	position: relative;
+	background-color: #dedaef;
+	margin: 0 auto;
+	width: 52%;
+	height: 673px;
+	overflow: hidden;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+h2.main_title {
+	text-align: center;
+	margin-top: 35px;
+	color: #726da8;
+	font-size: 22px;
+}
+table,
+th,
+td {
+	border-collapse: collapse;
+}
+table {
+	table-layout: fixed;
+	margin: 0 auto;
+	margin-top: 35px;
+	margin-bottom: 35px;
+	height: 360px;
+	width: 800px;
+	width: 80%;
+	border-top: 3px solid #726da8;
+	border-bottom: 3px solid #726da8;
+}
+tr {
+	border-top: 1px solid #6a5acd;
+	border-bottom: 1px solid #6a5acd;
+}
+th {
+	text-align: left;
+	padding-left: 30px;
+	width: 22%;
+	border-right: 1px solid #6a5acd;
+	color: #726da8;
+}
+td {
+	padding-left: 30px;
+}
+tr.thread_title_line {
+	height: 80px;
+}
+tr.commenter_line {
+	height: 80px;
+}
+tr.comment_line td pre {
+	white-space: pre-wrap;
+	height: 200px;
+	padding-top: 5px;
+	overflow-y: scroll;
+}
+tr:nth-child(odd) {
+	background-color: #b3acff;
+}
+tr:nth-child(even) {
+	background-color: #dedaef;
+}
+input.report_btn,
+a.cancel_link {
+	width: 100px;
+	height: 30px;
+}
+input.report_btn {
+	float: left;
+	width: 110px;
+	height: 30px;
+	font-size: 15px;
+	margin-left: 350px;
+	color: #ffffff;
+	background-color: #ff8c00;
+	border: 0px;
+	border-radius: 3px;
+}
+input.report_btn:hover {
+	color: #dadada;
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
+a.cancel_link {
+	display: block;
+	margin-right: 350px;
+	float: right;
+	width: 110px;
+	height: 27px;
+	padding-top: 3px;
+	font-size: 15px;
+	color: #ffffff;
+	background-color: #726da8;
+	border: 0px;
+	border-radius: 3px;
+	text-align: center;
+}
+a.cancel_link:hover {
+	color: #dadada;
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
+h2.done_msg {
+	font-size: 30px;
+	margin-top: 200px;
+	text-align: center;
+	color: #ff8c00;
+}
+a.return_link {
+	display: block;
+	margin: 80px auto 0 auto;
+	text-align: center;
+	color: #4635ff;
+}

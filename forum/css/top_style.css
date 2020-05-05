@@ -77,15 +77,16 @@ form.search {
 a.clear_link {
 	display: inline-flex;
 	align-self: center;
-	flex-basis: 47px;
-	height: 24px;
+	flex-basis: 42px;
+	height: 22px;
 	margin-bottom: 1px;
-	padding-top: 1px;
-	padding-left: 3px;
-	background-color: #a0a0a0;
-	border: 1px solid #000000;
+	padding-top: 3px;
+	padding-left: 4px;
+	background-color: #34d0ff;
+	border: 1px solid #0077ff;
+	color: #ffffff;
 	border-radius: 3px;
-	font-size: 14px;
+	font-size: 12px;
 }
 .msg_none {
 	margin-top: 150px;

@@ -10,16 +10,28 @@
     <?php 
     }else{
     // コメント最大100個表示
+        $num = $page_data;
         foreach($comments as $comment_item){ ?>
         <div class="comment_content">
     <?php 
             $day = new DateTime($comment_item['comment_datetime']);
             $day = $day->format('Y年m月d日 H時i分');?>
             <p class="top_row">
-                <span class="comment_num"><?php echo $comment_item['comment_id']; ?>.</span>
+                <span class="comment_num"><?php echo ++$num; ?>.</span>
                 <span class="coment_count">投稿者:<?php echo html_escape($comment_item['nickname']); ?></span>
-                <span class="creation_datetime">投稿日時:<?php echo $day; ?></span>
+                <span class="creation_datetime">投稿日時:<?php echo $day; ?>
+                <?php 
+                // 投稿者が自分の場合通報リンクを非表示
+                $user = $_SESSION['user'];
+                if($comment_item['commenter_id'] !== $user['user_id'] && $comment_item['reported'] === '0'){?>
+                <span class="report_link"><a href="<?php echo site_url("forum/report/".$comment_item['comment_id']);?>">コメントを通報</a></span>
+                <?php 
+                }elseif($comment_item['commenter_id'] !== $user['user_id'] && $comment_item['reported'] !== '0'){ ?>
+                <span class="report_link">通報済み</span>
+                <?php 
+                }?>
             </p>
+
             <hr class="comment_line">
             <pre class="comment_text"><?php echo html_escape($comment_item['text']); ?></pre>
         </div>

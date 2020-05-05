@@ -4,7 +4,7 @@ class Forum extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('users_model','session_manager','threads_model','comments_model'));
+        $this->load->model(array('users_model','session_manager','threads_model','comments_model','reports_model'));
         $this->load->library(array('session','pagination','form_validation'));
         $this->load->helper('url_helper');
     }
@@ -152,10 +152,12 @@ class Forum extends CI_Controller{
             )
         );
         
+        $user = $_SESSION['user'];
+
         // 正しく入力されたときのみDBにコメント追加
         if($this->form_validation->run() === TRUE)
         {
-            $user = $_SESSION['user'];
+            
             $this->comments_model->add_comments($user['user_id'], $thread['thread_id']);
         }
 
@@ -182,12 +184,14 @@ class Forum extends CI_Controller{
         // configを反映
         $this->pagination->initialize($config);
 
-        // ページリンクの生成
+        // 現在のページ位置取得
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data['page_data'] = $page;
+        // ページリンクの生成
         $data["links"] = $this->pagination->create_links();
 
         // 範囲を指定してコメントを取得
-        $comments = $this->comments_model->get_comments_limit($config["per_page"], $page, $thread['thread_id']);
+        $comments = $this->comments_model->get_comments_limit($config["per_page"], $page, $thread['thread_id'], $user['user_id']);
 
         // それぞれのコメントのユーザー名取得
         for($i = 0;$i < count($comments);$i++)
@@ -215,6 +219,59 @@ class Forum extends CI_Controller{
         $this->load->view('thread_page', $data);
         $this->load->view('footer', $data);
 
+    }
+
+    // コメント通報
+    public function report($slug = FALSE)
+    {
+        // セッションの有無を判定　なかった場合ログインページへ
+        if($this->session_manager->isSession() === FALSE)
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/login'));
+        }
+
+        // コメントが指定されていない場合トップページへ
+        if($slug === FALSE)
+        {
+            redirect(site_url('forum/index'));
+        }
+
+        // 指定されたコメントが存在しない場合トップページへ
+        $report_comment = $this->comments_model->get_comment($slug);
+        if(empty($report_comment))
+        {
+            redirect(site_url('forum/index'));
+        }
+
+        // 通報が確定されている場合
+        if(!empty($this->input->post('report_comment_id')))
+        {
+            $user = $_SESSION['user'];
+            $this->reports_model->report_comment($slug,$user['user_id']);
+            $data['msg'] = '通報が完了しました';
+
+        }
+        // 通報が確定されていない場合
+        else
+        {
+            // スレッド情報をセット
+            $thread = $this->threads_model->get_threads($report_comment['thread_id']);
+            $data['report_comment_thread'] = $thread;
+            $data['report_comment_user'] = $this->users_model->get_user($report_comment['commenter_id']);
+        }
+        // コメント情報をセット
+        $data['report_comment'] = $report_comment;
+        
+        // タイトルを渡す
+        $data['title'] = "イグナイト - コメント通報";
+        // トップページ画面のCSSを渡す
+        $data['stylesheet'] = 'report_style.css';
+
+        // スレッドページ画面を表示する
+        $this->load->view('header', $data);
+        $this->load->view('report_page', $data);
+        $this->load->view('footer', $data);
     }
     // 検索クリア
     public function clear()
