@@ -9,7 +9,7 @@
             <tr>
                 <th>ニックネーム</th>
                 <td>
-                    <input type="text" name="nickname" value="<?php echo html_escape(set_value('nickname')); ?>"
+                    <input type="text" name="nickname" value="<?php echo html_escape($user['nickname']); ?>"
                         <?php 
                         // $slugがnicknameじゃない場合はdisabled属性を付与
                         if($slug !== 'nickname'){?> disabled="disabled" <?php } ?>>
@@ -27,7 +27,7 @@
             <tr>
                 <th>メールアドレス</th>
                 <td>
-                    <input type="text" name="mailaddress" value="<?php echo html_escape(set_value('mailaddress')); ?>"
+                    <input type="text" name="mailaddress" value="<?php echo html_escape($user['mailaddress']); ?>"
                         <?php 
                         // $slugがmailaddressじゃない場合はdisabled属性を付与
                         if($slug !== 'mailaddress'){?> disabled="disabled" <?php } ?>>

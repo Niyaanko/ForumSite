@@ -70,7 +70,9 @@ class Comments_model extends CI_Model {
         // $limitに表示する最大数 $startに開始位置
         $this->db->limit($limit, $start);
         // IFNULLで通報してないコメントは0に
-        $this->db->select('comments. comment_id, comments.text, comments.comment_datetime, comments.commenter_id, comments.thread_id, IFNULL(reports.report_id,0) AS reported',FALSE);
+        $sql_select = 'comments. comment_id, comments.text, comments.comment_datetime,';
+        $sql_select .= 'comments.commenter_id, comments.thread_id, IFNULL(reports.report_id,0) AS reported';
+        $this->db->select($sql_select,FALSE);
         $this->db->from($this->table);
         // reportsテーブルと外部結合(LEFT OUTER JOIN)
         $this->db->join('reports','comments.comment_id = reports.comment_id AND reports.reporter_id ='.$user_id,'left outer');
@@ -107,4 +109,5 @@ class Comments_model extends CI_Model {
         $query = $this->db->get_where($this->table, array('comment_id' => $slug));
         return $query->row_array();
     }
+
 }

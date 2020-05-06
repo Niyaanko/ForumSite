@@ -38,7 +38,7 @@ class Threads_model extends CI_Model {
     // 引数3:並び替えのキー 初期値がスレッド作成日
     // 引数4:降順("DESC") or 昇順("DESC") 初期値が降順
     public function get_threads_range($limit, $start, 
-        $sort_key = 'creation_datetime', $sort_order = 'DESC', $key_word = NULL)
+        $sort_key = 'threads.creation_datetime', $sort_order = 'DESC', $key_word = NULL)
     {
         /*
         [SQL文]
@@ -48,7 +48,7 @@ class Threads_model extends CI_Model {
             LEFT JOIN comments ON threads.thread_id = comments.thread_id 
             WHERE threads.title LIKE "%$key_word%"
             GROUP BY threads.thread_id 
-            ORDER BY $sort_key $sort_order, threads.thread_id;
+            ORDER BY $sort_key $sort_order, threads.thread_id ASC;
             LIMIT  $limit
             OFFSET $start
         */
@@ -58,17 +58,19 @@ class Threads_model extends CI_Model {
 
         // threadsテーブルのすべての列と、コメント数を集計したcomment_count列を取得
         // IFNULLでコメントが無いスレッドは0に
-        $this->db->select('threads.thread_id, threads.title, threads.creation_datetime, threads.creator_id,,IFNULL(count(comments.thread_id),0) AS comment_count',FALSE);
+        $sql_select = 'threads.thread_id, threads.title, threads.creation_datetime,';
+        $sql_select .= 'threads.creator_id,IFNULL(count(comments.thread_id),0) AS comment_count';
+        $this->db->select($sql_select ,FALSE);
         $this->db->from($this->table);
         // commentsテーブルと外部結合(LEFT OUTER JOIN)
         $this->db->join('comments','threads.thread_id = comments.thread_id','left outer');
-        // 
+        // 検索ワード
         if(!empty($key_word))
         {
             $this->db->like('`threads.title`', $key_word);
         }
         // スレッドIDでグループ化
-        $this->db->group_by('threads.thread_id',FALSE);
+        $this->db->group_by('threads.thread_id');
         // 並び替え第二はスレッドIDで昇順
         $this->db->order_by("{$sort_key} {$sort_order} ,`threads.thread_id` ASC");
         // クエリ取得

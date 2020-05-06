@@ -13,12 +13,8 @@ class Mypage extends CI_Controller{
     public function mypage()
     {
 
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE)
-        {
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        $this->session_judge();
+
         $user = $_SESSION['user'];
         // 作成スレッド数の取得、セット
         $data['threads_count'] = $this->threads_model->get_user_count($user['user_id']);
@@ -38,12 +34,8 @@ class Mypage extends CI_Controller{
     // パスワード以外の変更ボタン(ニックネーム、メールアドレス)が押された場合の処理
     public function change($slug = NULL){
 
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE)
-        {
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        $this->session_judge();
+
         // $slug がnullの場合マイページへ遷移
         if(empty($slug)){
             redirect(site_url('mypage/mypage'));
@@ -149,12 +141,7 @@ class Mypage extends CI_Controller{
     // パスワードの変更ボタンが押された場合の処理
     public function pw_change(){
 
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE)
-        {
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        $this->session_judge();
 
         // 検証ルールの指定
         $config = array(
@@ -200,6 +187,7 @@ class Mypage extends CI_Controller{
     }
     // パスワード変更ページ表示メソッド
     public function view_password_page($data = NULL){
+        
         if(empty($data))
         {
             $data = array();
@@ -248,6 +236,35 @@ class Mypage extends CI_Controller{
     {
         $this->session_manager->deleteSession();
         redirect(site_url('login/login'));
+    }
+
+    public function session_judge()
+    {
+        // セッションの有無を判定　なかった場合ログインページへ
+        if($this->session_manager->isSession() === FALSE)
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/login'));
+        }
+        $sess_user = $_SESSION['user'];
+
+        // permission が[-1]BANの場合
+        if($sess_user['permission'] === '-1')
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/ban'));
+        }
+        // permission が[0]削除(退会)の場合
+        elseif($sess_user['permission'] === '0')
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/delete'));
+        }
+        // permission が[2]管理者の場合
+        elseif($sess_user['permission'] === '2')
+        {
+            redirect(site_url('admin/index'));
+        }
     }
 
 }

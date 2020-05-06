@@ -6,10 +6,10 @@
         echo form_open("forum/index",$attribute_pulldown);
         // optionタグ設定
         $options = array(
-            "creation_datetime-DESC" => "スレッドが新しい順",
-            "creation_datetime-ASC" => "スレッドが古い順",
-            "title-DESC" => "かな順(降順)",
-            "title-ASC" => "かな順(昇順)",
+            "threads.creation_datetime-DESC" => "スレッドが新しい順",
+            "threads.creation_datetime-ASC" => "スレッドが古い順",
+            "threads.title-DESC" => "かな順(降順)",
+            "threads.title-ASC" => "かな順(昇順)",
             "comment_count-DESC" => "コメントが多い順",
             "comment_count-ASC" => "コメントが少ない順"
         );

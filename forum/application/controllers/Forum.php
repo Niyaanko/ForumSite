@@ -12,11 +12,9 @@ class Forum extends CI_Controller{
     // 全スレッド情報を取得し、スレッド一覧のページを表示
     public function index()
     {
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE){
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        // セッション判定
+        $this->session_judge();
+
         // 全スレッド情報を取得
         $threads = $this->threads_model->get_threads(); 
 
@@ -116,11 +114,9 @@ class Forum extends CI_Controller{
     // 指定されたスレッドの情報を取得し、スレッドのページを表示
     public function view($slug = NULL)
     {
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE){
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        // セッション判定
+        $this->session_judge();
+
         // スレッドの情報が指定されていない場合トップページを表示する
         if($slug === NULL)
         {
@@ -224,12 +220,8 @@ class Forum extends CI_Controller{
     // コメント通報
     public function report($slug = FALSE)
     {
-        // セッションの有無を判定　なかった場合ログインページへ
-        if($this->session_manager->isSession() === FALSE)
-        {
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
-        }
+        // セッション判定
+        $this->session_judge();
 
         // コメントが指定されていない場合トップページへ
         if($slug === FALSE)
@@ -280,4 +272,32 @@ class Forum extends CI_Controller{
         redirect(site_url('forum/index'));
     }
 
+    public function session_judge()
+    {
+        // セッションの有無を判定　なかった場合ログインページへ
+        if($this->session_manager->isSession() === FALSE)
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/login'));
+        }
+        $sess_user = $_SESSION['user'];
+
+        // permission が[-1]BANの場合
+        if($sess_user['permission'] === '-1')
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/ban'));
+        }
+        // permission が[0]削除(退会)の場合
+        elseif($sess_user['permission'] === '0')
+        {
+            $this->session_manager->deleteSession();
+            redirect(site_url('login/delete'));
+        }
+        // permission が[2]管理者の場合
+        elseif($sess_user['permission'] === '2')
+        {
+            redirect(site_url('admin/index'));
+        }
+    }
 }

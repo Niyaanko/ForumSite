@@ -25,15 +25,22 @@
             $top_url = isset($_SESSION['user']) ? site_url("forum/index") : site_url("register/regist") ?>
             <h2 class="header_subtitle"><a href="<?php echo $top_url ?>">完全会員制掲示板</a></h2>
             <h1 class="header_title"><a href="<?php echo $top_url ?>">イグナイト</a></h1>
-            <?php /* 
-            セッションに'user'がセットされていなければ「ログイン」にLogin.php メソッドloginへのリンクを表示
-            セッションに'user'がセットされていれば「○○さん」に○○さんのマイページへのリンクを表示
-            */?>
-            <?php if(isset($_SESSION['user'])){ 
-            $user = $_SESSION['user']; ?>
+            <?php 
+            /* セッションに'user'がセットされていなければ「ログイン」にLogin.php メソッドloginへのリンクを表示
+               セッションに'user'がセットされていれば「○○さん」に○○さんのマイページへのリンクを表示 */ 
+            if(isset($_SESSION['user'])){ 
+            $user = $_SESSION['user']; 
+                if($user['permission'] === '1'){?>
             <p><a class="header_mypage" href="<?php echo site_url("mypage/mypage") ?>"><?php echo html_escape($user['nickname']) ?><span>さん</span></a></p>
-            <?php }else{ ?>
+            <?php
+                }elseif($user['permission'] === '2'){?> 
+            <p>
+            <a class="header_mypage" href="<?php echo site_url("admin/mypage") ?>">管理者アカウント:<?php echo html_escape($user['nickname']) ?><span>でログイン中</span></a></p>
+            <?php
+                } 
+            }else{ ?>
             <p><a class="header_login" href="<?php echo site_url("login/login") ?>">ログイン</a></p>
-            <?php } ?>
+            <?php 
+            } ?>
         </header>
         
