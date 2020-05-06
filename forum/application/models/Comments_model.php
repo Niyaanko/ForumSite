@@ -75,7 +75,7 @@ class Comments_model extends CI_Model {
         // reportsテーブルと外部結合(LEFT OUTER JOIN)
         $this->db->join('reports','comments.comment_id = reports.comment_id AND reports.reporter_id ='.$user_id,'left outer');
         // コメントIDで並び替え(昇順)
-        $this->db->order_by('comment_id','ASC');
+        $this->db->order_by('comment_datetime','ASC');
         $this->db->where('thread_id', $slug);
         $query = $this->db->get();
         return $query->result_array();
