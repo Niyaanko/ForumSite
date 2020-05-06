@@ -5,7 +5,7 @@ class Admin extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('users_model','threads_model','session_manager','reports_model'));
-        $this->load->library(array('session','form_validation'));
+        $this->load->library(array('session','pagination','form_validation'));
         $this->load->helper(array('form','url_helper'));
     }
 
@@ -36,13 +36,13 @@ class Admin extends CI_Controller {
         $per_page = 20;
         // 現在のページ数取得
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        if($report_count === '0'){
+        if($report_total_count === '0'){
             $data['msg'] = '通報されたコメントはありません';
         }else{
             // 通報コメント一覧取得(LIMIT > $per_page, OFFSET > $page)
             $data['report_comments'] = $this->reports_model->get_report_comments($per_page, $page, 'report_count','DESC');
             $config['base_url'] = base_url().'admin/reports/';
-            $config['total_rows'] = $report_count;
+            $config['total_rows'] = $report_total_count;
             $config['per_page'] = $per_page;
             $config['attributes'] = array('class' => 'page_link');
             $config['num_links'] = 3;

@@ -73,6 +73,7 @@ class Reports_model extends CI_Model {
         public function get_report_count()
         {
             // スレッドIDでグループ化
+            $this->db->select('comment_id',FALSE);
             $this->db->group_by('comment_id');
             return $this->db->count_all_results($this->table);
         }
