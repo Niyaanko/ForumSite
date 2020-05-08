@@ -30,7 +30,7 @@ class Reports_model extends CI_Model {
             /*
             [SQL文]
             SELECT reports.comment_id, comments.text AS comment_text, comments.comment_datetime, 
-                comments.commenter_id ,users.nickname AS commenter_name, threads.thread_id, 
+                comments.commenter_id, comments.status, users.nickname AS commenter_name, threads.thread_id, 
                 threads.title AS thread_title, COUNT(reports.comment_id) AS report_count 
             FROM reports 
             INNER JOIN comments ON reports.comment_id = comments.comment_id 
@@ -51,7 +51,7 @@ class Reports_model extends CI_Model {
             $this->db->limit($limit, $start);
             // COUNT(reports.comment_id)でそのコメントが通報された数を集計
             $sql_select = 'reports.comment_id, comments.text AS comment_text, comments.comment_datetime,';
-            $sql_select .= 'comments.commenter_id ,users.nickname AS commenter_name, users.permission, threads.thread_id,';
+            $sql_select .= 'comments.commenter_id, comments.status,users.nickname AS commenter_name, users.permission, threads.thread_id,';
             $sql_select .= 'threads.title AS thread_title, COUNT(reports.comment_id) AS report_count';
             $this->db->select($sql_select,FALSE);
             $this->db->from($this->table);
@@ -64,7 +64,7 @@ class Reports_model extends CI_Model {
             // スレッドIDでグループ化
             $this->db->group_by('reports.comment_id');
             // 並び替え
-            $this->db->order_by("{$sort_key} {$sort_order}","comments.comment_id ASC");
+            $this->db->order_by("{$sort_key} {$sort_order}","comment_id ASC");
             $query = $this->db->get();
             return $query->result_array();
         }
@@ -83,7 +83,7 @@ class Reports_model extends CI_Model {
         {
             /* [SQL文]
             SELECT reports.comment_id, comments.text AS comment_text, comments.comment_datetime, 
-                comments.commenter_id ,users.nickname AS commenter_name, threads.thread_id, 
+                comments.commenter_id , comments.status, users.nickname AS commenter_name, threads.thread_id, 
                 threads.title AS thread_title, COUNT(reports.comment_id) AS report_count 
             FROM reports 
             INNER JOIN comments ON reports.comment_id = comments.comment_id 
@@ -98,7 +98,7 @@ class Reports_model extends CI_Model {
             
             // COUNT(reports.comment_id)でそのコメントが通報された数を集計
             $sql_select = 'reports.comment_id, comments.text AS comment_text, comments.comment_datetime,';
-            $sql_select .= 'comments.commenter_id ,users.nickname AS commenter_name, users.permission,threads.thread_id,';
+            $sql_select .= 'comments.commenter_id , comments.status, users.nickname AS commenter_name, users.permission,threads.thread_id,';
             $sql_select .= 'threads.title AS thread_title, COUNT(reports.comment_id) AS report_count';
             $this->db->select($sql_select,FALSE);
             $this->db->from($this->table);

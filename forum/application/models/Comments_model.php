@@ -46,7 +46,7 @@ class Comments_model extends CI_Model {
     public function get_comments_limit($limit = FALSE, $start = FALSE, $slug = FALSE, $user_id = FALSE)
     {
         /*[SQL文]
-        SELECT comments. comment_id, comments.text, comments.comment_datetime,
+        SELECT comments. comment_id, comments.text, comments.comment_datetime, comments.status,
             comments.commenter_id, comments.thread_id, users.nickname, users.permission,
             IFNULL(reports.report_id,0) AS reported
         FROM comments
@@ -63,7 +63,7 @@ class Comments_model extends CI_Model {
         }
         
         // IFNULLで通報してないコメントは0に
-        $sql_select = 'comments. comment_id, comments.text, comments.comment_datetime,';
+        $sql_select = 'comments. comment_id, comments.text, comments.comment_datetime, comments.status,';
         $sql_select .= 'comments.commenter_id, comments.thread_id, users.nickname, users.permission,';
         $sql_select .= 'IFNULL(reports.report_id,0) AS reported';
         $this->db->select($sql_select,FALSE);
@@ -89,7 +89,8 @@ class Comments_model extends CI_Model {
             'text' => $this->input->post('comment'),
             'comment_datetime' => date('Y/m/d H:i:s'),
             'commenter_id' => $commenter_id,
-            'thread_id' => $thread_id
+            'thread_id' => $thread_id,
+            'status' => 'NORMAL'
         );
         $this->db->insert($this->table, $data);
         // 挿入したデータのIDを返却
@@ -106,6 +107,21 @@ class Comments_model extends CI_Model {
         }
         $query = $this->db->get_where($this->table, array('comment_id' => $slug));
         return $query->row_array();
+    }
+
+    // コメントのステータスをdeleteに
+    public function delete_comment($slug = FALSE)
+    {
+        // 引数が指定されていなかった場合NULLを返す
+        if($slug === FALSE)
+        {
+            return NULL;
+        }
+        $data = array('status' => 'DELETED');
+        $this->db->where('comment_id', $slug);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
     }
 
 }

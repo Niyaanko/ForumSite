@@ -47,28 +47,28 @@ class Create extends CI_Controller {
     }
     public function session_judge()
     {
-        // セッションの有無を判定　なかった場合ログインページへ
+        // セッションの有無を判定　なかった場合return
         if($this->session_manager->isSession() === FALSE)
         {
-            $this->session_manager->deleteSession();
-            redirect(site_url('login/login'));
+            return;
         }
+
         $sess_user = $_SESSION['user'];
 
         // permission が[-1]BANの場合
-        if($sess_user['permission'] === '-1')
+        if($sess_user['permission'] === 'BANNED')
         {
             $this->session_manager->deleteSession();
             redirect(site_url('login/ban'));
         }
         // permission が[0]削除(退会)の場合
-        elseif($sess_user['permission'] === '0')
+        elseif($sess_user['permission'] === 'DELETED')
         {
             $this->session_manager->deleteSession();
             redirect(site_url('login/delete'));
         }
         // permission が[2]管理者の場合
-        elseif($sess_user['permission'] === '2')
+        elseif($sess_user['permission'] === 'ADMIN')
         {
             redirect(site_url('admin/index'));
         }

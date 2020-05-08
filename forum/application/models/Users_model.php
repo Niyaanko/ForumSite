@@ -17,7 +17,7 @@ class Users_model extends CI_Model {
             'nickname' => $nickname,
             'mailaddress' => $this->input->post('mailaddress'),
             'password' => $this->regist_password_hash($this->input->post('password')),
-            'permission' => 1
+            'permission' => 'NORMAL'
         );
         $this->db->insert($this->table, $data);
     }
@@ -134,19 +134,70 @@ class Users_model extends CI_Model {
     }
 
     // 指定ユーザーをBAN(permissionを-1に変更)
-    public function ban_user($user_id = NULL){
+    public function ban_user($user_id = NULL)
+    {
 
         // ユーザーIDが渡されなかった場合FALSEを返却
         if($user_id === NULL)
         { 
             return FALSE; 
         }
-        $data = array('permission' => -1);
+        $data = array('permission' => 'BANNED');
         // UPDATE文の実行
         $this->db->where('user_id', $user_id);
         $this->db->update($this->table, $data);
         // TRUEを返却
         return TRUE;
+    }
+
+    // 総ユーザー数を取得
+    public function get_user_count($slug = FALSE)
+    {
+        // $slugが指定されていない場合0を返却
+        if($slug === FALSE){ return 0; }
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+
+    // ユーザーとそれに付随する情報を範囲指定で取得
+    public function get_users_info($limit = FALSE, $start = FALSE,$sort_key = 'user_id',$sort_order = 'ASC')
+    {
+        /*[SQL文]
+        SELECT user_id, nickname, mailaddress, permission,
+            COUNT(DISTINCT comments.comment_id) AS comment_count,
+            COUNT(DISTINCT threads.thread_id) AS threads_create_count,
+            COUNT(DISTINCT reports.report_id) AS report_count,
+            COUNT(DISTINCT comments.status = 'DELETED' OR NULL) AS deleted_comment
+        FROM users
+        LEFT OUTER JOIN comments ON users.user_id = comments.commenter_id
+        LEFT OUTER JOIN threads ON users.user_id = threads.creator_id
+        LEFT OUTER JOIN reports ON comments.comment_id = reports.comment_id
+        GROUP BY users.user_id
+        ORDER BY $sort_key $sort_order, users.user_id ASC
+        LIMIT $limit
+        OFFSET $start;*/
+        if($limit === FALSE || $start === FALSE){
+            return NULL;
+        }
+        $sql_select = 'user_id, nickname, mailaddress, permission,';
+        $sql_select .= 'COUNT(DISTINCT comments.comment_id) AS comment_count,';
+        $sql_select .= 'COUNT(DISTINCT threads.thread_id) AS threads_create_count,';
+        $sql_select .= 'COUNT(DISTINCT reports.report_id) AS report_count,';
+        $sql_select .= "COUNT(DISTINCT comments.status = 'DELETED' OR NULL) AS deleted_comment";
+        $this->db->select($sql_select,FALSE);
+        $this->db->from($this->table);
+        // commentsテーブルと外部結合(LEFT OUTER JOIN)
+        $this->db->join('comments','users.user_id = comments.commenter_id','left outer');
+        // threadsテーブルと外部結合(LEFT OUTER JOIN)
+        $this->db->join('threads','users.user_id = threads.creator_id','left outer');
+        // reportsテーブルと外部結合(LEFT OUTER JOIN)
+        $this->db->join('reports','comments.comment_id = reports.comment_id','left outer');
+        // user_idでグループ化
+        $this->db->group_by('users.user_id');
+        // $sort_key $sort_order, users.user_id ASC
+        $this->db->order_by("{$sort_key} {$sort_order} ,`users.user_id` ASC");
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     // 暗号化方法を隠蔽

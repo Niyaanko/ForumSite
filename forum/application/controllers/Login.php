@@ -79,17 +79,17 @@ class Login extends CI_Controller {
             else
             {
                 // BANされたユーザー
-                if($user['permission'] === '-1')
+                if($user['permission'] === 'BANNED')
                 {
                     redirect(site_url('login/ban'));
                 }
                 // 削除(退会)したユーザー
-                elseif($user['permission'] === '0')
+                elseif($user['permission'] === 'DELETED')
                 {
                     redirect(site_url('login/delete'));
                 }
                 // 削除(退会)した管理者
-                elseif($user['permission'] === '2')
+                elseif($user['permission'] === 'ADMIN')
                 {
                     //セッションをセット
                     $this->session_manager->addSession($user);
@@ -141,19 +141,19 @@ class Login extends CI_Controller {
         $sess_user = $_SESSION['user'];
 
         // permission が[-1]BANの場合
-        if($sess_user['permission'] === '-1')
+        if($sess_user['permission'] === 'BANNED')
         {
             $this->session_manager->deleteSession();
             redirect(site_url('login/ban'));
         }
         // permission が[0]削除(退会)の場合
-        elseif($sess_user['permission'] === '0')
+        elseif($sess_user['permission'] === 'DELETED')
         {
             $this->session_manager->deleteSession();
             redirect(site_url('login/delete'));
         }
         // permission が[2]管理者の場合
-        elseif($sess_user['permission'] === '2')
+        elseif($sess_user['permission'] === 'ADMIN')
         {
             redirect(site_url('admin/index'));
         }

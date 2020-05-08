@@ -1,5 +1,5 @@
 <main>
-    <h2 class="main_title">通報コメント投稿ユーザーBAN</h2>
+    <h2 class="main_title">通報コメント削除</h2>
     <?php 
     $day = new DateTime($report_comment['comment_datetime']);
     $day = $day->format('Y年m月d日 H時i分');?>
@@ -34,10 +34,10 @@
             </td>
         </tr>
     </table>
-    <h3 class="question_msg" >このコメントを投稿したユーザーをBANしますか？</h3>
+    <h3 class="question_msg" >このコメントを削除しますか？</h3>
     <?php 
-    echo form_open("report/ban/".$report_comment['comment_id']);
-    echo form_hidden('ban_flg', 'TRUE');
+    echo form_open("report/delete/".$report_comment['comment_id']);
+    echo form_hidden('delete_flg', 'TRUE');
     $data = array(
         'name' => 'submit',
         'value' => '確定',

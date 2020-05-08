@@ -1,4 +1,5 @@
 <main>
+    <a class="toplink_top" href="<?php echo site_url("admin/index"); ?>">管理者トップへ</a>
     <h2 class="main_title">通報コメント一覧</h2>
     <div class="reports_body">
     <?php 
@@ -27,9 +28,8 @@
             </td>
             <th>投稿者名</th>
             <td>
-                <a href="<?php echo site_url("report/users/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['commenter_name']); ?></a>
-                <?php 
-            if($report_item['permission'] === '-1'){ ?>
+                <a href="<?php echo site_url("report/users/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['commenter_name']); ?></a>                <?php 
+            if($report_item['permission'] === 'BANNED'){ ?>
                 <span>BAN済み</span>
             <?php } ?>
             </td>
@@ -47,7 +47,7 @@
             <td colspan="4">
                 <a class="delete_link" href="<?php echo site_url("report/delete/".$report_item['comment_id']); ?>">コメントを削除</a>
             <?php 
-            if($report_item['permission'] !== '-1'){ ?>
+            if($report_item['permission'] !== 'BANNED'){ ?>
                 <a class="ban_link" href="<?php echo site_url("report/ban/".$report_item['comment_id']); ?>">投稿者をBAN</a>
             <?php 
             }else{ ?>
@@ -61,7 +61,8 @@
     <?php 
         }
     }?>
-    <div>
+    </div>
+    <a class="toplink_bottom" href="<?php echo site_url("admin/index"); ?>">管理者トップへ</a>
     <div class="page_links">
     <?php if(isset($links)){ echo $links; } ?>
     </div>
