@@ -133,6 +133,22 @@ class Users_model extends CI_Model {
         return TRUE;
     }
 
+    // 指定ユーザーをBAN(permissionを-1に変更)
+    public function ban_user($user_id = NULL){
+
+        // ユーザーIDが渡されなかった場合FALSEを返却
+        if($user_id === NULL)
+        { 
+            return FALSE; 
+        }
+        $data = array('permission' => -1);
+        // UPDATE文の実行
+        $this->db->where('user_id', $user_id);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
     // 暗号化方法を隠蔽
     private function regist_password_hash($pass)
     {

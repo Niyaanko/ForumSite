@@ -89,6 +89,12 @@ hr.comment_line {
 	border-color: grey;
 	border-style: solid;
 }
+span.commenter_ban {
+	color: #ff0000;
+}
+span.commenter_admin {
+	color: #f87070;
+}
 span.report_link {
 	float: right;
 }

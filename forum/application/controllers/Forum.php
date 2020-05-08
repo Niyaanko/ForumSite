@@ -135,7 +135,7 @@ class Forum extends CI_Controller{
         $creator = $this->users_model->get_user($thread['creator_id']);
         // NULLでなければニックネームをセット
         if(!empty($creator)){
-            $thread['creator_nickname'] = $creator['nickname'];
+            $thread['creator'] = $creator;
         }
             
         // 検証ルールのセット
@@ -186,17 +186,9 @@ class Forum extends CI_Controller{
         // ページリンクの生成
         $data["links"] = $this->pagination->create_links();
 
-        // 範囲を指定してコメントを取得
+        // 範囲を指定してコメント,コメントに付随するデータを取得
         $comments = $this->comments_model->get_comments_limit($config["per_page"], $page, $thread['thread_id'], $user['user_id']);
 
-        // それぞれのコメントのユーザー名取得
-        for($i = 0;$i < count($comments);$i++)
-        {
-            // ユーザー取得
-            $commentor = $this->users_model->get_user($comments[$i]['commenter_id']); 
-            // キー comment_count でコメント数を追加
-            $comments[$i] = array_merge($comments[$i],array('nickname' => $commentor['nickname']));
-        }
         // スレッドデータのセット
         $data['comments'] = $comments;
         $data['thread'] = $thread;

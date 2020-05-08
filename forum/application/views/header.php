@@ -31,11 +31,15 @@
             if(isset($_SESSION['user'])){ 
             $user = $_SESSION['user']; 
                 if($user['permission'] === '1'){?>
-            <p><a class="header_mypage" href="<?php echo site_url("mypage/mypage") ?>"><?php echo html_escape($user['nickname']) ?><span>さん</span></a></p>
+            <p>
+                <a class="header_mypage" href="<?php echo site_url("mypage/mypage") ?>"><?php echo html_escape($user['nickname']) ?><span>さん</span></a>
+            </p>
             <?php
                 }elseif($user['permission'] === '2'){?> 
-            <p>
-            <a class="header_mypage" href="<?php echo site_url("admin/mypage") ?>">管理者アカウント:<?php echo html_escape($user['nickname']) ?><span>でログイン中</span></a></p>
+            <p class="header_admin">管理者:<?php echo html_escape($user['nickname']) ?><span> でログイン中</span></p>
+            <div class="parent_logout_link">
+                <a class="logout_link" href="<?php echo site_url("admin/logout") ?>">ログアウト</a>
+            </div>
             <?php
                 } 
             }else{ ?>

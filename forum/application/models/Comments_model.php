@@ -42,43 +42,41 @@ class Comments_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    // // 範囲を指定してコメントを取得
-    // public function get_comments_limit($limit = FALSE, $start = FALSE,$slug = FALSE)
-    // {
-    //     if($limit === FALSE || $start === FALSE || $thread_id = FALSE)
-    //     {
-    //         return NULL;
-    //     }
-        
-    //     // $limitに表示する最大数 $startに開始位置
-    //     $this->db->limit($limit, $start);
-
-    //     // コメントIDで並び替え(昇順)
-    //     $this->db->order_by('comment_id','ASC');
-    //     $query = $this->db->get_where($this->table, array('thread_id' => $slug));
-    //     return $query->result_array();
-    // }
-
-    // 範囲を指定してコメントを取得
+    // 範囲を指定してコメント,付随する情報を取得
     public function get_comments_limit($limit = FALSE, $start = FALSE, $slug = FALSE, $user_id = FALSE)
     {
+        /*[SQL文]
+        SELECT comments. comment_id, comments.text, comments.comment_datetime,
+            comments.commenter_id, comments.thread_id, users.nickname, users.permission,
+            IFNULL(reports.report_id,0) AS reported
+        FROM comments
+        LEFT OUTER JOIN reports ON comments.comment_id = reports.comment_id AND reports.reporter_id = $user_id 
+        INNER JOIN users ON comments.commenter_id = users.user_id
+        WHERE thread_id = $slug
+        ORDER BY comment_datetime ASC
+        LIMIT $limit
+        OFFSET $start;
+        */
         if($limit === FALSE || $start === FALSE || $slug === FALSE || $user_id === FALSE)
         {
             return NULL;
         }
         
-        // $limitに表示する最大数 $startに開始位置
-        $this->db->limit($limit, $start);
         // IFNULLで通報してないコメントは0に
         $sql_select = 'comments. comment_id, comments.text, comments.comment_datetime,';
-        $sql_select .= 'comments.commenter_id, comments.thread_id, IFNULL(reports.report_id,0) AS reported';
+        $sql_select .= 'comments.commenter_id, comments.thread_id, users.nickname, users.permission,';
+        $sql_select .= 'IFNULL(reports.report_id,0) AS reported';
         $this->db->select($sql_select,FALSE);
         $this->db->from($this->table);
         // reportsテーブルと外部結合(LEFT OUTER JOIN)
         $this->db->join('reports','comments.comment_id = reports.comment_id AND reports.reporter_id ='.$user_id,'left outer');
+        // usersテーブルと内部結合(INNER JOIN)
+        $this->db->join('users','comments.commenter_id = users.user_id','inner');
+        $this->db->where('thread_id', $slug);
         // コメントIDで並び替え(昇順)
         $this->db->order_by('comment_datetime','ASC');
-        $this->db->where('thread_id', $slug);
+        // $limitに表示する最大数 $startに開始位置
+        $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();
     }

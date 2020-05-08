@@ -52,6 +52,30 @@ header .header_mypage:hover {
 header .header_mypage span {
 	padding-left: 5px;
 }
+/* ログイン済の右上リンク（管理者：～） */
+header .header_admin {
+	position: absolute;
+	font-weight: normal;
+	padding: 0;
+	top: 11%;
+	left: 83%;
+	height: 25%;
+}
+header .parent_logout_link {
+	position: absolute;
+	font-weight: normal;
+	padding: 0;
+	top: 50%;
+	left: 83%;
+	height: 25%;
+}
+header .logout_link {
+	border-bottom: 1px solid #c0b6ef;
+}
+header .logout_link:hover {
+	color: #c0b6ef;
+	border-bottom: 1px solid #ff0000;
+}
 /* ヘッダー右上のログインリンク */
 header .header_login {
 	position: absolute;

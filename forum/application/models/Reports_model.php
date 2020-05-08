@@ -51,7 +51,7 @@ class Reports_model extends CI_Model {
             $this->db->limit($limit, $start);
             // COUNT(reports.comment_id)でそのコメントが通報された数を集計
             $sql_select = 'reports.comment_id, comments.text AS comment_text, comments.comment_datetime,';
-            $sql_select .= 'comments.commenter_id ,users.nickname AS commenter_name, threads.thread_id,';
+            $sql_select .= 'comments.commenter_id ,users.nickname AS commenter_name, users.permission, threads.thread_id,';
             $sql_select .= 'threads.title AS thread_title, COUNT(reports.comment_id) AS report_count';
             $this->db->select($sql_select,FALSE);
             $this->db->from($this->table);
@@ -76,5 +76,54 @@ class Reports_model extends CI_Model {
             $this->db->select('comment_id',FALSE);
             $this->db->group_by('comment_id');
             return $this->db->count_all_results($this->table);
+        }
+
+        // 通報されたコメント１つだけの情報取得
+        public function get_report_comment($slug = NULL)
+        {
+            /* [SQL文]
+            SELECT reports.comment_id, comments.text AS comment_text, comments.comment_datetime, 
+                comments.commenter_id ,users.nickname AS commenter_name, threads.thread_id, 
+                threads.title AS thread_title, COUNT(reports.comment_id) AS report_count 
+            FROM reports 
+            INNER JOIN comments ON reports.comment_id = comments.comment_id 
+            INNER JOIN threads ON comments.thread_id = threads.thread_id 
+            INNER JOIN users ON comments.commenter_id = users.user_id 
+            WHERE reports.comment_id = $slug 
+            GROUP BY reports.comment_id; */
+            if($slug === NULL)
+            {
+                return NULL;
+            }
+            
+            // COUNT(reports.comment_id)でそのコメントが通報された数を集計
+            $sql_select = 'reports.comment_id, comments.text AS comment_text, comments.comment_datetime,';
+            $sql_select .= 'comments.commenter_id ,users.nickname AS commenter_name, users.permission,threads.thread_id,';
+            $sql_select .= 'threads.title AS thread_title, COUNT(reports.comment_id) AS report_count';
+            $this->db->select($sql_select,FALSE);
+            $this->db->from($this->table);
+            // commentsテーブルと内部結合(INNER JOIN)
+            $this->db->join('comments','reports.comment_id = comments.comment_id','inner');
+            // threadsテーブルと内部結合(INNER JOIN)
+            $this->db->join('threads','comments.thread_id = threads.thread_id','inner');
+            // usersテーブルと内部結合(INNER JOIN)
+            $this->db->join('users','comments.commenter_id = users.user_id','inner');
+            // コメントIDで絞り込み
+            $this->db->where('reports.comment_id = '.$slug);
+            // スレッドIDでグループ化
+            $this->db->group_by('reports.comment_id');
+            $query = $this->db->get();
+            return $query->row_array();
+        }
+
+        // 特定コメントの通報削除(通報無視)
+        public function delete_report($comment_id = NULL)
+        {
+            if($comment_id === NULL)
+            {
+                return FALSE;
+            }
+            $this->db->delete($this->table, array('comment_id' => $comment_id));
+            return TRUE;
         }
 }

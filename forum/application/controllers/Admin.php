@@ -26,6 +26,12 @@ class Admin extends CI_Controller {
 
     }
 
+    public function logout()
+    {
+        $this->session_manager->deleteSession();
+        redirect(site_url('login/login'));
+    }
+
     public function reports()
     {
         // セッション判定
@@ -33,7 +39,7 @@ class Admin extends CI_Controller {
         // 通報されたコメントの総数を取得
         $report_total_count = $this->reports_model->get_report_count();
         // 1ページに表示するコメントの数
-        $per_page = 20;
+        $per_page = 10;
         // 現在のページ数取得
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         if($report_total_count === '0'){
@@ -83,7 +89,7 @@ class Admin extends CI_Controller {
             $this->session_manager->deleteSession();
             redirect(site_url('login/delete'));
         }
-        // permission が[2]管理者の場合
+        // permission が[1]userの場合
         elseif($sess_user['permission'] === '1')
         {
             redirect(site_url('forum/index'));

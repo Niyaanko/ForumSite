@@ -81,7 +81,7 @@ class Login extends CI_Controller {
                 // BANされたユーザー
                 if($user['permission'] === '-1')
                 {
-                    redirect(site_url('forum/ban'));
+                    redirect(site_url('login/ban'));
                 }
                 // 削除(退会)したユーザー
                 elseif($user['permission'] === '0')

@@ -1,0 +1,125 @@
+main {
+	min-height: 673px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 673px;
+	width: 52%;
+	background-color: #dedaef;
+	position: relative;
+	margin: 0 auto;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+h2.main_title {
+	padding-top: 60px;
+	color: #726da8;
+	text-align: center;
+}
+div.reports_body {
+	margin: 50px auto 0 auto;
+	width: 80%;
+}
+table,
+tr,
+th,
+td {
+	border: 1px solid #6a5acd;
+	border-collapse: collapse;
+	color: #6a5acd;
+}
+table.report_content {
+	margin: 30px 0;
+	width: 100%;
+	background-color: #d4ceef;
+	border: 3px solid #6a5acd;
+}
+table.report_content a {
+	color: #6a5acd;
+}
+table.report_content a:hover {
+	color: #f87070;
+}
+th {
+	background-color: #bbafee;
+}
+table.report_content th {
+	text-align: left;
+	padding-left: 30px;
+}
+tr.row_reportcount_thread {
+	height: 30px;
+}
+tr.row_reportcount_thread th {
+	width: 110px;
+}
+tr.row_reportcount_thread td {
+	padding-left: 10px;
+}
+td.report_count {
+	width: 150px;
+}
+tr.row_commenter {
+	height: 30px;
+}
+tr.row_commenter td {
+	padding-left: 10px;
+}
+tr.row_commenter td span {
+	padding-right: 10px;
+	float: right;
+	color: #ff0000;
+}
+tr.row_comment_datetime {
+	height: 30px;
+}
+tr.row_comment_datetime td {
+	padding-left: 10px;
+}
+tr.row_comment_text pre {
+	white-space: pre-wrap;
+	height: 200px;
+	padding-top: 5px;
+	overflow-y: scroll;
+	font-size: 14px;
+	padding: 5px 10px 0 10px;
+}
+tr.row_links {
+	text-align: center;
+	height: 60px;
+}
+a.delete_link,
+a.ban_link,
+p.ban_done,
+a.ignore_link {
+	display: inline-block;
+	background-color: #ffffff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: 2px solid #6a5acd;
+	margin: 0px 10px;
+}
+p.ban_done {
+	background-color: #6a5acd;
+	color: #ffffff;
+}
+a.delete_link:hover,
+a.ban_link:hover,
+a.ignore_link:hover {
+	border: 2px solid #ff8c00;
+}
+a.page_link {
+	padding: 3px;
+	color: #726da8;
+}
+.page_links {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 50px;
+}
+.page_links strong {
+	font-weight: normal;
+	padding: 3px;
+	color: #ff8c00;
+}
