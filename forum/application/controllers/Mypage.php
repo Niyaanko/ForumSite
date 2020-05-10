@@ -115,7 +115,6 @@ class Mypage extends CI_Controller{
         // 検証ルールの反映
         $this->form_validation->set_rules($config);
         
-
         // submit 前や、不正な入力のときはフォームを表示する
         if($this->form_validation->run() === FALSE) 
         {

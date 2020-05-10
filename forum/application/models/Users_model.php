@@ -22,6 +22,19 @@ class Users_model extends CI_Model {
         $this->db->insert($this->table, $data);
     }
 
+    // ユーザー登録
+    public function regist_admin()
+    {
+        // パスワードではハッシュ化を行う
+        $data = array(
+            'nickname' => $this->input->post('nickname'),
+            'mailaddress' => $this->input->post('mailaddress'),
+            'password' => $this->regist_password_hash($this->input->post('password')),
+            'permission' => 'ADMIN'
+        );
+        $this->db->insert($this->table, $data);
+    }
+
     // ユーザー取得(user_idから)
     public function get_user($user_id)
     {
@@ -133,16 +146,31 @@ class Users_model extends CI_Model {
         return TRUE;
     }
 
-    // 指定ユーザーをBAN(permissionを-1に変更)
+    // 指定ユーザーをBAN(permissionをBANNEDに変更)
     public function ban_user($user_id = NULL)
     {
-
         // ユーザーIDが渡されなかった場合FALSEを返却
         if($user_id === NULL)
         { 
             return FALSE; 
         }
         $data = array('permission' => 'BANNED');
+        // UPDATE文の実行
+        $this->db->where('user_id', $user_id);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
+    // 指定ユーザーをBANから回復(permissionをNORMALに変更)
+    public function recover_user($user_id = NULL)
+    {
+        // ユーザーIDが渡されなかった場合FALSEを返却
+        if($user_id === NULL)
+        { 
+            return FALSE; 
+        }
+        $data = array('permission' => 'NORMAL');
         // UPDATE文の実行
         $this->db->where('user_id', $user_id);
         $this->db->update($this->table, $data);
@@ -199,6 +227,8 @@ class Users_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    
 
     // 暗号化方法を隠蔽
     private function regist_password_hash($pass)

@@ -1,9 +1,5 @@
 <main>
     <h2 class="catchcopy">イグナイトに登録して掲示板を利用しましょう！</h2>
-
-    
-    
-
     <?php echo form_open("register/regist"); ?>
         <h2 class="form_title">アカウント登録</h2>
         <h3 class="regist_mailaddress">メールアドレス<input type="text" name="mailaddress" value="<?php echo html_escape(set_value('mailaddress')); ?>" placeholder="メールアドレスを入力" maxlength="90" required></h3>

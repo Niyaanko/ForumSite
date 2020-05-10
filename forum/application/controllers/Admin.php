@@ -72,6 +72,19 @@ class Admin extends CI_Controller {
     {
         // セッション判定
         $this->session_judge();
+        // ボタンが押されていた場合
+        $ban_user_id = $this->input->post('ban_hdn');
+        $recover_user_id = $this->input->post('recover_hdn');
+        // BANボタンが押されていた場合BAN
+        // 回復ボタンが押されていた場合回復
+        if(!empty($ban_user_id)){
+            $this->users_model->ban_user($ban_user_id);
+            redirect(site_url("admin/users"));
+        }elseif(!empty($recover_user_id)){
+            $this->users_model->recover_user($recover_user_id);
+            redirect(site_url("admin/users"));
+        }
+
         // 通報されたコメントの総数を取得
         $user_total_count = $this->users_model->get_user_count();
         // 1ページに表示するユーザーの数
@@ -103,19 +116,57 @@ class Admin extends CI_Controller {
         $this->load->view('footer', $data);
     }
 
-    public function user_ban($slug = NULL)
+    // 管理者アカウント作成
+    public function create_admin()
     {
-        // セッション判定
         $this->session_judge();
-        if($slug === NULL)
+        // 検証ルールの複数指定
+        $config = array(
+            array(
+                'field' => 'nickname',
+                'label' => 'ニックネーム',
+                'rules' => 'required|max_length[10]',
+                'errors' => array(
+                    'required' => '%s を入力していません',
+                    'max_length' => '%s は10文字以内で入力して下さい'
+                )
+            ),
+            array(
+                'field' => 'mailaddress',
+                'label' => 'メールアドレス',
+                'rules' => 'required|max_length[90]|is_unique[users.mailaddress]|valid_email',
+                'errors' => array(
+                    'required' => '%s を入力していません',
+                    'max_length' => '%s は90文字以内で入力して下さい',
+                    'is_unique' => '%s は既に使用されています',
+                    'valid_email' => 'メールアドレスを入力して下さい'
+                )
+            ),
+            array(
+                'field' => 'password',
+                'label' => 'パスワード',
+                'rules' => 'required|min_length[8]|max_length[12]',
+                'errors' => array(
+                    'required' => '%s を入力していません',
+                    'min_length' => '%s は8文字以上で入力して下さい',
+                    'max_length' => '%s は12文字以内で入力して下さい'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+        // タイトルを渡す
+        $data['title'] = "イグナイト - 管理者アカウント作成";
+        // 通報コメント一覧画面のCSSを渡す
+        $data['stylesheet'] = 'create_admin_style.css';
+        if($this->form_validation->run())
         {
-            redirect(site_url("admin/users"));
+            $this->users_model->regist_admin();
+            $data['msg'] = '管理者アカウント作成に成功しました';
         }
-    }
-
-    public function user_recover($slug = NULL)
-    {
-        
+        // 通報コメント一覧画面を表示する
+        $this->load->view('header', $data);
+        $this->load->view('create_admin_page', $data);
+        $this->load->view('footer', $data);
     }
 
     public function session_judge()

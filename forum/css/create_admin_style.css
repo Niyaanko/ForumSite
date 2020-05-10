@@ -1,0 +1,125 @@
+main {
+	position: relative;
+	background-color: #dedaef;
+	margin: 0 auto;
+	width: 52%;
+	height: 673px;
+	overflow: hidden;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+h2.main_title {
+	text-align: center;
+	color: #726da8;
+	margin-top: 180px;
+}
+h3.done_msg {
+	margin-top: 100px;
+	text-align: center;
+	color: #726da8;
+}
+a.create_admin_link {
+	display: block;
+	margin-top: 100px;
+	text-align: center;
+	font-size: 18px;
+	color: #f87070;
+}
+a.toplink_top {
+	display: block;
+	float: left;
+	margin-left: 20px;
+	text-align: center;
+	height: 25px;
+	width: 125px;
+	color: #726da8;
+	border-bottom: 3px double #726da8;
+	margin-top: 20px;
+}
+a.toplink_top:hover {
+	color: #f87070;
+	border-bottom: 3px double #f87070;
+}
+
+h3.regist_nickname {
+	font-size: 24px;
+	position: absolute;
+	top: 320px;
+	left: 215px;
+	color: #726da8;
+	font-weight: normal;
+}
+h3.regist_mailaddress {
+	font-size: 24px;
+	position: absolute;
+	top: 400px;
+	left: 215px;
+	color: #726da8;
+	font-weight: normal;
+}
+h3.regist_nickname input,
+h3.regist_mailaddress input,
+h3.regist_password input {
+	padding-left: 5px;
+	position: absolute;
+	left: 200px;
+	width: 345px;
+	height: 30px;
+	border: 1px solid #9c96e4;
+	border-radius: 5px;
+}
+h3.regist_password {
+	font-size: 24px;
+	position: absolute;
+	top: 480px;
+	left: 215px;
+	color: #726da8;
+	font-weight: normal;
+}
+h3.regist_nickname input[type="text"]:focus,
+h3.regist_mailaddress input[type="text"]:focus,
+h3.regist_password input[type="password"]:focus {
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
+input.regist_button {
+	position: absolute;
+	text-decoration: none;
+	top: 580px;
+	left: 415px;
+	width: 170px;
+	height: 30px;
+	font-size: 17px;
+	color: #ffffff;
+	background-color: #726da8;
+	border: 0px;
+	border-radius: 3px;
+	letter-spacing: 1em;
+	text-indent: 1em;
+}
+input.regist_button:hover {
+	color: #dadada;
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
+/* エラーメッセージ */
+div.error_nickname,
+div.error_mail,
+div.error_pw {
+	position: absolute;
+	left: 417px;
+	color: red;
+}
+div.error_nickname {
+	top: 360px;
+}
+div.error_mail {
+	top: 440px;
+}
+div.error_pw {
+	top: 520px;
+}
