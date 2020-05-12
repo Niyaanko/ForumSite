@@ -1,0 +1,173 @@
+main {
+	min-height: 673px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 673px;
+	width: 52%;
+	background-color: #dedaef;
+	position: relative;
+	margin: 0 auto;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+a.top_link,
+a.top_link_bottom {
+	height: 25px;
+	width: 146px;
+	color: #726da8;
+	border-bottom: 3px double #726da8;
+}
+a.top_link:hover,
+a.top_link_bottom:hover {
+	color: #f87070;
+	border-bottom: 3px double #f87070;
+}
+a.top_link {
+	float: left;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+a.top_link_bottom {
+	margin-left: 20px;
+}
+h2.thread_title {
+	text-align: center;
+	padding-top: 40px;
+	color: #726da8;
+}
+h3.thread_creator {
+	text-align: center;
+	padding-top: 20px;
+	color: #726da8;
+}
+h3.thread_status {
+	text-align: center;
+	padding-top: 20px;
+	color: #726da8;
+}
+hr.top_line,
+hr.bottom_line {
+	margin: 0 auto;
+	width: 90%;
+	border-width: 1px 0 0 0;
+	border-color: #726da8;
+	border-style: dotted;
+}
+hr.top_line {
+	margin-top: 55px;
+}
+hr.bottom_line {
+	margin-bottom: 55px;
+}
+/* メインコンテンツ */
+h3.comment_none {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	color: #726da8;
+}
+div.thread_content {
+	margin: 50px auto 50px auto;
+	width: 70%;
+}
+div.comment_content {
+	width: 100%;
+	min-height: 150px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 100px;
+	margin: 20px 0;
+	padding: 5px;
+	background-color: #bebefa;
+	border: 1px solid #726da8;
+	border-radius: 7px;
+}
+pre.comment_text {
+	white-space: pre-wrap;
+}
+hr.comment_line {
+	margin: 0 auto;
+	width: 100%;
+	margin-bottom: 3px;
+	border-width: 1px 0 0 0;
+	border-color: grey;
+	border-style: solid;
+}
+span.reported_count {
+	float: right;
+}
+input.delete_btn,
+input.recover_btn {
+	display: block;
+	float: right;
+	background-color: #ffffff;
+	padding: 3px 10px;
+	border-radius: 5px;
+	border: 2px solid #6a5acd;
+	color: #6a5acd;
+	margin-bottom: 3px;
+}
+input.delete_btn:hover {
+	border-color: #f87070;
+	color: #f87070;
+}
+input.recover_btn:hover {
+	border-color: #59bb56;
+	color: #59bb56;
+}
+/* 入力フォーム */
+form.add_comment {
+	bottom: 100px;
+	padding-bottom: 100px;
+	width: 100%;
+	text-align: center;
+}
+form h3 {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	color: #726da8;
+}
+textarea.comment_input {
+	resize: none;
+	width: 580px;
+	height: 120px;
+	padding-left: 5px;
+	padding-top: 5px;
+	border: 1px solid #726da8;
+	border-radius: 3px;
+}
+textarea.comment_input:focus {
+	outline: none;
+	border: 1px solid #ff8c00;
+	box-shadow: 0 0 2px #ff8c00;
+}
+input.send_button {
+	margin: 0 auto;
+	width: 100px;
+	height: 30px;
+	margin-top: 10px;
+	font-size: 17px;
+	color: #ffffff;
+	background-color: #ff8c00;
+	border: 1px solid #c56c00;
+	border-radius: 3px;
+}
+input.send_button:hover {
+	color: #dadada;
+	box-shadow: 0 0 2px #ff8c00;
+}
+a.page_link {
+	padding: 3px;
+	color: #726da8;
+}
+.page_links {
+	text-align: center;
+}
+.page_links strong {
+	font-weight: normal;
+	padding: 3px;
+	color: #ff8c00;
+}
+main {
+	padding-bottom: 20px;
+}

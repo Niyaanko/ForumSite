@@ -14,21 +14,21 @@
         <tr class="row_reportcount_thread">
             <th>通報数</th>
             <td class="report_count">
-                <a href="<?php echo site_url("report/reports/".$report_item['commenter_id']); ?>"><?php echo $report_item['report_count']; ?></a>
+                <p><?php echo $report_item['report_count']; ?></p>
             </td>
             <th>投稿スレッド</th>
             <td class="thread_title">
-                <a href="<?php echo site_url("admin_threads/index/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['thread_title']); ?></a>
+                <a href="<?php echo site_url("admin/comments/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['thread_title']); ?></a>
             </td>
         </tr>
         <tr class="row_commenter">
             <th>投稿者ID</th>
             <td>
-                <a href="<?php echo site_url("report/users/".$report_item['thread_id']); ?>"><?php echo $report_item['commenter_id']; ?></a>
+                <p><?php echo $report_item['commenter_id']; ?></p>
             </td>
             <th>投稿者名</th>
             <td>
-                <a href="<?php echo site_url("report/users/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['commenter_name']); ?></a>                <?php 
+                <p><?php echo html_escape($report_item['commenter_name']); ?></p><?php 
             if($report_item['permission'] === 'BANNED'){ ?>
                 <span>BAN済み</span>
             <?php } ?>
@@ -40,7 +40,7 @@
         <tr class="row_comment_text">
             <th>コメント</th>
             <td colspan="3">
-                <pre><a href="<?php echo site_url("admin_threads/index/".$report_item['thread_id']."/".$report_item['comment_id']); ?>"><?php echo html_escape($report_item['comment_text']); ?></a></pre>
+                <pre><a href="<?php echo site_url("admin/comments/".$report_item['thread_id']); ?>"><?php echo html_escape($report_item['comment_text']); ?></a></pre>
             </td>
         </tr>
         <tr class="row_links">

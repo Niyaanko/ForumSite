@@ -86,6 +86,9 @@ tr.row_commenter {
 tr.row_commenter td {
 	padding-left: 10px;
 }
+tr.row_commenter td p {
+	float: left;
+}
 tr.row_commenter td span {
 	padding-right: 10px;
 	float: right;

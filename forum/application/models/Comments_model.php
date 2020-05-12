@@ -81,6 +81,46 @@ class Comments_model extends CI_Model {
         return $query->result_array();
     }
 
+    // 範囲を指定してコメント,付随する情報を取得
+    public function get_comments_admin($limit = FALSE, $start = FALSE, $slug = FALSE)
+    {
+        /*[SQL文]
+        SELECT comments. comment_id, comments.text, comments.comment_datetime, comments.status,
+            comments.commenter_id, comments.thread_id, users.nickname, users.permission,
+            COUNT(reports.report_id) AS reported_count
+        FROM comments
+        LEFT OUTER JOIN reports ON comments.comment_id = reports.comment_id 
+        INNER JOIN users ON comments.commenter_id = users.user_id
+        WHERE thread_id = $slug
+        GROUP BY comments.comment_id
+        ORDER BY comment_datetime ASC
+        LIMIT $limit
+        OFFSET $start;
+        */
+        if($limit === FALSE || $start === FALSE || $slug === FALSE)
+        {
+            return NULL;
+        }
+        
+        $sql_select = 'comments. comment_id, comments.text, comments.comment_datetime, comments.status,';
+        $sql_select .= 'comments.commenter_id, comments.thread_id, users.nickname, users.permission,';
+        $sql_select .= 'COUNT(reports.report_id) AS reported_count';
+        $this->db->select($sql_select,FALSE);
+        $this->db->from($this->table);
+        // reportsテーブルと外部結合(LEFT OUTER JOIN)
+        $this->db->join('reports','comments.comment_id = reports.comment_id','left outer');
+        // usersテーブルと内部結合(INNER JOIN)
+        $this->db->join('users','comments.commenter_id = users.user_id','inner');
+        $this->db->where('thread_id', $slug);
+        $this->db->group_by('comments.comment_id');
+        // コメントIDで並び替え(昇順)
+        $this->db->order_by('comment_datetime','ASC');
+        // $limitに表示する最大数 $startに開始位置
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function add_comments($commenter_id = FALSE, $thread_id = FALSE)
     {
         // $slugが指定されていない場合0を返却
@@ -118,6 +158,21 @@ class Comments_model extends CI_Model {
             return NULL;
         }
         $data = array('status' => 'DELETED');
+        $this->db->where('comment_id', $slug);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
+    // コメントのステータスをnormalに
+    public function recover_comment($slug = FALSE)
+    {
+        // 引数が指定されていなかった場合NULLを返す
+        if($slug === FALSE)
+        {
+            return NULL;
+        }
+        $data = array('status' => 'NORMAL');
         $this->db->where('comment_id', $slug);
         $this->db->update($this->table, $data);
         // TRUEを返却

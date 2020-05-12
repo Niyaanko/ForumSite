@@ -34,7 +34,7 @@
         $attributes_search = array(
             "name" => "search",
             "class" => "input_search",
-            "value" => $val,
+            "value" => html_escape($val),
             "maxlength" => "20",
             "placeholder" => "スレッドを検索"
         );

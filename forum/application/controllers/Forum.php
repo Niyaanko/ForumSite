@@ -126,7 +126,7 @@ class Forum extends CI_Controller{
         $thread = $this->threads_model->get_threads($slug); 
         
         // 指定されたスレッドが存在しなければ404表示
-        if(empty($thread))
+        if(empty($thread) || $thread['status'] === 'BANNED')
         {
             show_404();
         }
@@ -153,7 +153,6 @@ class Forum extends CI_Controller{
         // 正しく入力されたときのみDBにコメント追加
         if($this->form_validation->run() === TRUE)
         {
-            
             $this->comments_model->add_comments($user['user_id'], $thread['thread_id']);
         }
 

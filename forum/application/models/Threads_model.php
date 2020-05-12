@@ -23,13 +23,14 @@ class Threads_model extends CI_Model {
         return $query->row_array();
     }
 
-    // 全スレッド数を取得 $slugが指定されていた場合検索に引っかかった数を取得
+    // statusがNORMALの全スレッド数を取得 $slugが指定されていた場合検索に引っかかった数を取得
     public function get_thread_count($slug = NULL)
     {
         if(!empty($slug)){
             $this->db->like('title', $slug);
         }
         $this->db->from($this->table);
+        $this->db->where('status','NORMAL');
         return $this->db->count_all_results();
     }
 
@@ -59,7 +60,67 @@ class Threads_model extends CI_Model {
         // threadsテーブルのすべての列と、コメント数を集計したcomment_count列を取得
         // IFNULLでコメントが無いスレッドは0に
         $sql_select = 'threads.thread_id, threads.title, threads.creation_datetime,';
-        $sql_select .= 'threads.creator_id,IFNULL(count(comments.thread_id),0) AS comment_count';
+        $sql_select .= 'threads.creator_id,threads.status AS thread_status,';
+        $sql_select .= 'IFNULL(count(comments.thread_id),0) AS comment_count';
+        $this->db->select($sql_select ,FALSE);
+        $this->db->from($this->table);
+        // commentsテーブルと外部結合(LEFT OUTER JOIN)
+        $this->db->join('comments','threads.thread_id = comments.thread_id','left outer');
+        // 検索ワード
+        if(!empty($key_word))
+        {
+            $this->db->like('`threads.title`', $key_word);
+        }
+        // statusがNORMALのスレッドのみ取得
+        $this->db->where('threads.status','NORMAL');
+        // スレッドIDでグループ化
+        $this->db->group_by('threads.thread_id');
+        // 並び替え第二はスレッドIDで昇順
+        $this->db->order_by("{$sort_key} {$sort_order} ,`threads.thread_id` ASC");
+        // クエリ取得
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+    // 全スレッド数を取得 $slugが指定されていた場合検索に引っかかった数を取得
+    public function get_thread_count_all($slug = NULL)
+    {
+        if(!empty($slug)){
+            $this->db->like('title', $slug);
+        }
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+
+    // 範囲を指定してスレッド、コメント数の取得
+    // 引数1:取得するデータの最大数 引数2:取得を開始するデータ位置
+    // 引数3:並び替えのキー 初期値がスレッド作成日
+    // 引数4:降順("DESC") or 昇順("DESC") 初期値が降順
+    public function get_threads_range_all($limit, $start, 
+        $sort_key = 'threads.creation_datetime', $sort_order = 'DESC', $key_word = NULL)
+    {
+        /*
+        [SQL文]
+        SELECT threads.thread_id, threads.title, threads.creation_datetime,
+                threads.creator_id,IFNULL(count(comments.thread_id),0) AS comment_count
+            FROM threads 
+            LEFT JOIN comments ON threads.thread_id = comments.thread_id 
+            WHERE threads.title LIKE "%$key_word%"
+            GROUP BY threads.thread_id 
+            ORDER BY $sort_key $sort_order, threads.thread_id ASC;
+            LIMIT  $limit
+            OFFSET $start
+        */
+
+        // $limitに表示する最大数 $startに開始位置
+        $this->db->limit($limit, $start);
+
+        // threadsテーブルのすべての列と、コメント数を集計したcomment_count列を取得
+        // IFNULLでコメントが無いスレッドは0に
+        $sql_select = 'threads.thread_id, threads.title, threads.creation_datetime,';
+        $sql_select .= 'threads.creator_id,threads.status AS thread_status,';
+        $sql_select .= 'IFNULL(count(comments.thread_id),0) AS comment_count';
         $this->db->select($sql_select ,FALSE);
         $this->db->from($this->table);
         // commentsテーブルと外部結合(LEFT OUTER JOIN)
@@ -98,10 +159,35 @@ class Threads_model extends CI_Model {
         $data = array(
             'title' => $this->input->post('title'),
             'creation_datetime' => date('Y/m/d H:i:s'),
-            'creator_id' => $creator_id
+            'creator_id' => $creator_id,
+            'status' => 'NORMAL'
         );
         $this->db->insert($this->table, $data);
         // 挿入したデータのIDを返却
         return $this->db->insert_id();
+    }
+
+    public function thread_ban($slug = FALSE)
+    {
+        if($slug === FALSE){ return FALSE; }
+
+        $data = array('status' => 'BANNED');
+        // UPDATE文の実行
+        $this->db->where('thread_id', $slug);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
+    }
+
+    public function thread_recover($slug = FALSE)
+    {
+        if($slug === FALSE){ return FALSE; }
+
+        $data = array('status' => 'NORMAL');
+        // UPDATE文の実行
+        $this->db->where('thread_id', $slug);
+        $this->db->update($this->table, $data);
+        // TRUEを返却
+        return TRUE;
     }
 }
