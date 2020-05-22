@@ -1,15 +1,3 @@
-main {
-	min-height: 673px;
-	/* !important で優先 */
-	height: auto !important;
-	height: 673px;
-	width: 52%;
-	background-color: #dedaef;
-	position: relative;
-	margin: 0 auto;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 a.top_link,
 a.top_link_bottom {
 	height: 25px;

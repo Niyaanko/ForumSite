@@ -1,21 +1,13 @@
-main {
-	position: relative;
-	background-color: #dedaef;
-	margin: 0 auto;
-	width: 52%;
-	height: 673px;
-	overflow: hidden;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 div.error_title {
 	position: absolute;
-	top: 400px;
-	left: 300px;
+	top: 380px;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%); /*位置調整*/
 	color: red;
 }
 h2.form_title {
-	margin-top: 180px;
+	padding-top: 150px;
 	text-align: center;
 	color: #726da8;
 }
@@ -28,7 +20,9 @@ h3.input_label {
 }
 input.thread_title {
 	position: absolute;
-	left: 295px;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%); /*位置調整*/
 	padding-left: 5px;
 	margin-top: 30px;
 	width: 400px;

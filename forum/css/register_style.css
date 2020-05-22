@@ -1,17 +1,12 @@
-main {
-	position: relative;
-	background-color: #dedaef;
-	margin: 0 auto;
-	width: 52%;
-	height: 673px;
-	overflow: hidden;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 h2.catchcopy {
-	position: relative;
-	margin-top: 40px;
-	text-align: center;
+	position: absolute;
+	left: 50%;
+	display: inline-block;
+	width: 600px;
+	height: 50px;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%); /*位置調整*/
+	padding-top: 20px;
 	color: #726da8;
 	font-weight: 700;
 	letter-spacing: 3px;
@@ -20,7 +15,7 @@ h2.catchcopy:before {
 	content: "";
 	position: absolute;
 	left: 50%;
-	bottom: -7px; /*線の上下位置*/
+	bottom: 5px; /*線の上下位置*/
 	display: inline-block;
 	width: 600px; /*線の長さ*/
 	height: 3px; /*線の太さ*/
@@ -29,60 +24,53 @@ h2.catchcopy:before {
 	background-color: #ff8c00; /*線の色*/
 	border-radius: 2px; /*線の丸み*/
 }
-h2.form_title {
-	margin-top: 100px;
-	text-align: center;
-	color: #726da8;
+table {
+	width: 600px;
+	height: 500px;
+	padding-top: 170px;
+	margin: 0 auto;
 }
-h3.regist_mailaddress {
+th {
+	width: 240px;
+	color: #726da8;
 	font-size: 24px;
-	position: absolute;
-	top: 300px;
-	left: 215px;
-	color: #726da8;
+}
+tr.regist_title_row th {
+	text-align: left;
+}
+tr.regist_mailaddress_error_row,
+tr.regist_password_error_row {
+	height: 25px;
+}
+tr.regist_mailaddress_error_row td,
+tr.regist_password_error_row td {
+	color: red;
+}
+tr.regist_mailaddress_row th,
+tr.regist_password_row th {
+	padding-top: 60px;
 	font-weight: normal;
+	text-align: left;
 }
-h3.regist_mailaddress input,
-h3.regist_password input {
-	padding-left: 5px;
-	position: absolute;
-	left: 200px;
-	width: 345px;
-	height: 30px;
-	border: 1px solid #9c96e4;
-	border-radius: 5px;
+tr.regist_mailaddress_row td,
+tr.regist_password_row td {
+	padding-top: 60px;
+	text-align: right;
 }
-h3.regist_password {
-	font-size: 24px;
-	position: absolute;
-	top: 380px;
-	left: 215px;
-	color: #726da8;
-	font-weight: normal;
-}
-h3.regist_mailaddress input[type="text"]:focus,
-h3.regist_password input[type="password"]:focus {
-	outline: none;
-	border-radius: 5px;
-	border: 1px solid #ff8c00;
-	box-shadow: 0 0 2px #ff8c00;
-}
-input.regist_button {
-	position: absolute;
+tr.regist_button_row input[type="submit"] {
+	margin-top: 60px;
 	text-decoration: none;
-	top: 480px;
-	left: 415px;
-	width: 170px;
+	width: 100px;
 	height: 30px;
 	font-size: 17px;
 	color: #ffffff;
 	background-color: #726da8;
 	border: 0px;
 	border-radius: 3px;
-	letter-spacing: 1em;
-	text-indent: 1em;
+	letter-spacing: 2px;
+	text-indent: 2px;
 }
-input.regist_button:hover {
+tr.regist_button_row input[type="submit"]:hover {
 	color: #dadada;
 	outline: none;
 	border-radius: 5px;
@@ -101,17 +89,4 @@ p.login_link a {
 }
 p.login_link a:hover {
 	text-decoration-line: underline;
-}
-/* エラーメッセージ */
-div.error_mail,
-div.error_pw {
-	position: absolute;
-	left: 417px;
-	color: red;
-}
-div.error_mail {
-	top: 340px;
-}
-div.error_pw {
-	top: 420px;
 }

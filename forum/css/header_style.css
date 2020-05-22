@@ -5,24 +5,59 @@
 	font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ",
 		Meiryo, "ＭＳ Ｐゴシック", sans-serif;
 }
+/* html body */
+html,
+body {
+	width: 100%;
+}
 body {
 	background-color: #d4ceef;
+	max-width: 1920px;
+}
+/* main */
+main {
+	position: relative;
+	min-height: 673px;
+	/* !important で優先 */
+	height: auto !important;
+	height: 673px;
+	width: 1024px;
+	min-width: 1024px;
+	background-color: #dedaef;
+	margin: 0 auto;
+	border-left: 1px dotted #6a5acd;
+	border-right: 1px dotted #6a5acd;
+}
+/* ヘッダー要素 */
+header {
+	height: 100px;
+	width: 100%;
+	min-width: 1024px;
+	padding: 15px 0;
+	background-color: #726da8;
+	color: #f5f5f5;
+	border-bottom: 2px dotted #000000;
 }
 /* アンカータグ */
 a {
 	text-decoration: none;
 	color: #ffffff;
 }
-/* ヘッダー要素 */
-header {
-	position: relative;
-	height: 100px;
-	width: 100%;
-	padding: 15px 0;
-	background-color: #726da8;
-	color: #f5f5f5;
-	border-bottom: 2px dotted #000000;
+/* form input text,password のデフォルトデザイン */
+input[type="text"],
+input[type="password"] {
+	padding-left: 5px;
+	width: 345px;
+	height: 30px;
+	border: 1px solid #6a5acd;
+	border-radius: 5px;
 }
+input[type="text"]:focus,
+input[type="password"]:focus {
+	outline: none;
+	border-color: #ff8c00;
+}
+
 /* タイトル(イグナイト) */
 header .header_title {
 	text-align: center;
@@ -30,6 +65,7 @@ header .header_title {
 }
 /* サブタイトル(完全会員制掲示板) */
 header .header_subtitle {
+	display: block;
 	text-align: center;
 	font-weight: normal;
 	letter-spacing: 5px;
@@ -38,11 +74,11 @@ header .header_subtitle {
 /* ログイン済の右上リンク（〇〇さん） */
 header .header_mypage {
 	position: absolute;
+	top: 30px;
+	right: 0px;
+	margin-right: 50px;
 	font-weight: normal;
-	padding: 0;
-	top: 11%;
-	left: 88.6%;
-	height: 25%;
+	width: 200px;
 	text-align: center;
 }
 header .header_mypage:hover {
@@ -55,19 +91,21 @@ header .header_mypage span {
 /* ログイン済の右上リンク（管理者：～） */
 header .header_admin {
 	position: absolute;
-	font-weight: normal;
+	text-align: right;
+	top: 30px;
+	right: 0px;
+	margin-right: 50px;
 	padding: 0;
-	top: 11%;
-	left: 83%;
-	height: 25%;
+	width: 300px;
+	font-weight: normal;
 }
 header .parent_logout_link {
 	position: absolute;
+	top: 60px;
+	right: 0px;
+	margin-right: 50px;
 	font-weight: normal;
 	padding: 0;
-	top: 50%;
-	left: 83%;
-	height: 25%;
 }
 header .logout_link {
 	border-bottom: 1px solid #c0b6ef;
@@ -77,21 +115,52 @@ header .logout_link:hover {
 	border-bottom: 1px solid #ff0000;
 }
 /* ヘッダー右上のログインリンク */
-header .header_login {
+header div.header_login_btn {
 	position: absolute;
-	top: 11%;
-	left: 88.6%;
-	height: 25%;
-	width: 7%;
-	padding-top: 0.5%;
-	padding-left: 3.7%;
-	border-radius: 40px;
+	top: 30px;
+	right: 0px;
+	margin-right: 50px;
+	padding: 2px 0;
+	display: block;
+	width: 100px;
+	text-align: center;
+	border-radius: 5px;
 	border: 1px solid #ffffff;
-	background-color: #726da8;
+	background-color: #6a5acd;
 }
-header .header_login:hover {
-	color: #dadada;
-	border: 1px solid #ff8c00;
-	box-shadow: 0 0 2px #ff8c00;
-	transition: all 0.5s;
+header div.header_login_btn a {
+	display: block;
+}
+header div.header_login_btn:hover,
+header div.header_login_btn:hover a {
+	border-color: #ff8c00;
+	color: #d4d4d4;
+}
+@media screen and (max-width: 1023px) {
+	header div.header_login_btn {
+		display: none;
+	}
+	header .header_admin {
+		display: none;
+	}
+	header .parent_logout_link {
+		display: none;
+	}
+	header .header_mypage {
+		display: none;
+	}
+}
+@media screen and (min-width: 1024px) {
+	header div.header_login_btn {
+		display: block;
+	}
+	header .header_admin {
+		display: block;
+	}
+	header .parent_logout_link {
+		display: block;
+	}
+	header .header_mypage {
+		display: block;
+	}
 }

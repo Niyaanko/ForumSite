@@ -1,21 +1,8 @@
-main {
-	min-height: 673px;
-	/* !important で優先 */
-	height: auto !important;
-	height: 673px;
-	width: 52%;
-	background-color: #dedaef;
-	position: relative;
-	margin: 0 auto;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 div.top_space {
 	display: flex;
 	width: 93%;
 	height: 100px;
 	margin: 0 auto;
-	display: flex;
 	justify-content: center;
 }
 div.top_space a.toplink_top {
@@ -31,7 +18,6 @@ div.toplink_area {
 	height: 40px;
 }
 a.toplink_bottom {
-	width: 120px;
 	margin-left: 20px;
 	color: #726da8;
 	border-bottom: 3px double #726da8;
@@ -44,9 +30,10 @@ a.toplink_bottom:hover {
 	border-color: #ff8c00;
 }
 form.pulldown {
-	flex-basis: 170px;
+	flex-basis: 150px;
+	width: 100%;
 	height: 30px;
-	margin-right: 170px;
+	margin-right: 50px;
 	align-self: center;
 }
 form.pulldown select {
@@ -90,7 +77,7 @@ a.clear_link {
 	flex-basis: 42px;
 	height: 22px;
 	margin-bottom: 1px;
-	margin-right: 50px;
+	margin-left: 10px;
 	padding-top: 3px;
 	padding-left: 4px;
 	background-color: #34d0ff;

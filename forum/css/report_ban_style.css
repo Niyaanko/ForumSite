@@ -1,15 +1,5 @@
-main {
-	position: relative;
-	background-color: #dedaef;
-	margin: 0 auto;
-	width: 52%;
-	height: 673px;
-	overflow: hidden;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 h2.main_title {
-	margin-top: 100px;
+	padding-top: 100px;
 	color: #726da8;
 	text-align: center;
 }

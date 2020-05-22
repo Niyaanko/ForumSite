@@ -1,38 +1,33 @@
-main {
-	position: relative;
-	background-color: #dedaef;
-	margin: 0 auto;
-	width: 52%;
-	height: 673px;
-	overflow: hidden;
-	border-left: 1px dotted #6a5acd;
-	border-right: 1px dotted #6a5acd;
-}
 h2.main-title {
-	margin-top: 150px;
+	padding-top: 150px;
 	text-align: center;
 	color: #726da8;
 }
 ul {
 	padding-top: 50px;
-	width: 30%;
+	width: 300px;
 	margin: 0 auto;
 	list-style: none;
 	font-size: 24px;
 }
 li {
 	height: 40px;
-	padding: 30px 0 5px 5px;
+	padding: 30px 0 0px 0px;
 	border-bottom: 1px solid #726da8;
 }
 li a {
+	height: 38px;
+	width: 290px;
 	padding: 3px 0 0 10px;
 	display: block;
 	color: #ff8c00;
+	background-image: linear-gradient(rgba(0, 0, 0, 0) 50%, #726da8 50%);
+	background-position: 0 0;
+	background-size: auto 200px;
 }
 li a:hover {
-	transition: 0.2s;
-	background-color: #ff8c00;
-	color: #ffffff;
-	border-radius: 3px;
+	transition: 0.5s;
+	/* background-color: #ff8c00; */
+	background-position: 0 100%;
+	color: #dedaef;
 }

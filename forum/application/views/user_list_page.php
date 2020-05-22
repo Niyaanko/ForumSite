@@ -14,7 +14,7 @@
                     <th>ユーザーID</th>
                     <td><?php echo $user_item['user_id'];?></td>
                     <th class="right_th">ユーザー名</th>
-                    <td class="right_td"><?php echo $user_item['nickname'];?></td>
+                    <td class="right_td"><?php echo html_escape($user_item['nickname']);?></td>
                 </tr>
                 <tr>
                     <th>メールアドレス</th>
