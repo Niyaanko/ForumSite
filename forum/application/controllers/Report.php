@@ -48,7 +48,8 @@ class Report extends CI_Controller {
 
         $post = $this->input->post('ban_flg');
         $report_comment = $this->reports_model->get_report_comment($slug);
-        if(empty($report_comment)){
+        if(empty($report_comment))
+        {
             redirect(site_url("admin/reports"));
         }
         if(!empty($post) && $post === 'TRUE')

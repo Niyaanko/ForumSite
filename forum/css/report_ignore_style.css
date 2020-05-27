@@ -66,6 +66,9 @@ h3.question_msg {
 	font-size: 22px;
 }
 input.confirm_btn {
+	position: absolute;
+	float: left;
+	left: 38%;
 	margin-right: 20px;
 	text-decoration: none;
 	width: 110px;
@@ -82,6 +85,8 @@ input.confirm_btn:hover {
 	border: 1px solid #ff8c00;
 }
 a.cancel_link {
+	position: absolute;
+	right: 38%;
 	margin-left: 20px;
 	display: inline-block;
 	text-decoration: none;
