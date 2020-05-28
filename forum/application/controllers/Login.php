@@ -51,6 +51,8 @@ class Login extends CI_Controller {
             $data['title'] = 'イグナイト - ログイン';
             // ログイン画面のCSSを渡す
             $data['stylesheet'] = 'login_style.css';
+            // ログイン画面のJSを渡す
+            $data['js'] = 'password_toggle.js';
             // ログイン画面を表示する
             $this->load->view('header', $data);
             $this->load->view('login_page',$data);
@@ -70,6 +72,8 @@ class Login extends CI_Controller {
                 $data['error'] = 'ログインに失敗しました';
                 // ログイン画面のCSSを渡す
                 $data['stylesheet'] = 'login_style.css';
+                // ログイン画面のJSを渡す
+                $data['js'] = 'password_toggle.js';
                 // ログイン画面を表示する
                 $this->load->view('header', $data);
                 $this->load->view('login_page',$data);
@@ -124,6 +128,8 @@ class Login extends CI_Controller {
         $data['error'] = '退会したユーザーです';
         // ログイン画面のCSSを渡す
         $data['stylesheet'] = 'login_style.css';
+        // ログイン画面のJSを渡す
+        $data['js'] = 'password_toggle.js';
         // ログイン画面を表示する
         $this->load->view('header', $data);
         $this->load->view('login_page',$data);

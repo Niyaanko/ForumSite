@@ -54,6 +54,8 @@ class Register extends CI_Controller {
             $data['title'] = 'イグナイト - アカウント登録';
             // ログイン画面のCSSを渡す
             $data['stylesheet'] = 'register_style.css';
+            // ログイン画面のJSを渡す
+            $data['js'] = 'password_toggle.js';
             // アカウント登録画面を表示する
             $this->load->view('header', $data);
             $this->load->view('register_page');

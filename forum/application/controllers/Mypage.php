@@ -195,6 +195,8 @@ class Mypage extends CI_Controller{
         $data['title'] = 'イグナイト - パスワード変更';
         // パスワード変更画面のCSSを渡す
         $data['stylesheet'] = 'password_style.css';
+        // パスワード変更のJSを渡す
+        $data['js'] = 'password_toggle.js';
         // パスワード変更画面を表示する
         $this->load->view('header', $data);
         $this->load->view('password_page', $data);

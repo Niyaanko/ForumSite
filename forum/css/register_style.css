@@ -90,3 +90,24 @@ p.login_link a {
 p.login_link a:hover {
 	text-decoration-line: underline;
 }
+td input[type="checkbox"].js-password-toggle {
+	display: none;
+}
+tr.regist_password_row td {
+	position: relative;
+}
+tr.regist_password_row td div.btn i.fa-eye,
+tr.regist_password_row td div.btn i.fa-eye-slash {
+	position: absolute;
+	bottom: 10px;
+	color: #000000;
+	content: "\f039";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+tr.regist_password_row td div.btn i.fa-eye {
+	right: 10px;
+}
+tr.regist_password_row td div.btn i.fa-eye-slash {
+	right: 9px;
+}

@@ -13,9 +13,17 @@ else:
 <?php 
     endif;?>
 <?= form_open('mypage/pw_change'); ?>
-        <h3 class="password_conf">古いパスワード<input type="password" name="password_conf"></h3>
+        <h3 class="password_conf">古いパスワード<input class="js-password" type="password" name="password_conf"></h3>
+        <div class="btn-old">
+            <input class="js-password-toggle" id="eye" type="checkbox">
+            <label class="js-password-label" for="eye"><i class="fas fa-eye"></i></label>
+        </div>
         <div class="error_conf"><?= form_error('password_conf'); ?></div>
-        <h3 class="password_new">新しいパスワード<input type="password" name="password_new"></h3>
+        <h3 class="password_new">新しいパスワード<input class="js-password-new" type="password" name="password_new"></h3>
+        <div class="btn-new">
+            <input class="js-password-new-toggle" id="eye-new" type="checkbox">
+            <label class="js-password-new-label" for="eye-new"><i class="fas fa-eye"></i></label>
+        </div>
         <div class="error_new"><?= form_error('password_new'); ?></div>
         <input class="change_button" type="submit" name="submit" value="変更">
     </form>

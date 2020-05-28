@@ -12,6 +12,8 @@
 <?php if(isset($stylesheet)): ?>
         <link rel="stylesheet" href="<?= base_url(); ?>css/<?= $stylesheet; ?>" type="text/css" />
 <?php endif; ?>
+            <!-- FontAwesome -->
+            <link rel="stylesheet" href="<?= base_url(); ?>/font-awesome/css/all.css" />
         <!-- javascript読込 -->
 <?php if(isset($js)): ?>
         <script type="text/javascript" src="<?= base_url(); ?>js/<?= $js; ?>"></script>

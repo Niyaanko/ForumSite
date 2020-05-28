@@ -17,7 +17,13 @@
             </tr>
             <tr class="regist_password_row">
                 <th>パスワード</th>
-                <td><input type="password" name="password" maxlength="12" placeholder="8文字以上12文字以内で入力" required></td>
+                <td>
+                    <input class="js-password" type="password" name="password" maxlength="12" placeholder="8文字以上12文字以内で入力" required>
+                    <div class="btn">
+                        <input class="js-password-toggle" id="eye" type="checkbox">
+                        <label class="js-password-label" for="eye"><i class="fas fa-eye"></i></label>
+                    </div>
+                </td>
             </tr>
             <tr class="regist_password_error_row">
                 <th></th>

@@ -9,7 +9,6 @@
             <tr class="login_mailaddress_row">
                 <th>メールアドレス</th>
                 <td><input type="text" name="mailaddress" value="<?= html_escape(set_value('mailaddress')); ?>"placeholder="メールアドレスを入力" required><td>
-                
             </tr>
             <tr class="login_mailaddress_error_row">
                 <th></th>
@@ -17,7 +16,13 @@
             </tr>
             <tr class="login_password_row">
                 <th>パスワード</th>
-                <td><input type="password" name="password" placeholder="パスワードを入力" required></td>
+                <td>
+                    <input class="js-password" type="password" name="password" placeholder="パスワードを入力" maxlength="12" autocomplete="off" required>
+                    <div class="btn">
+                        <input class="js-password-toggle" id="eye" type="checkbox">
+                        <label class="js-password-label" for="eye"><i class="fas fa-eye"></i></label>
+                    </div>
+                </td>
             </tr>
             <tr class="login_password_error_row">
                 <th></th>
@@ -30,5 +35,5 @@
         </table>
     </form>
 <!-- ログインフォーム -->
-    <p class="regist_link">アカウントをお持ちでない方は<a href=<?php echo site_url("register/regist"); ?>>こちら</a></p>
+    <p class="regist_link">アカウントをお持ちでない方は<a href=<?= site_url("register/regist"); ?>>こちら</a></p>
 </main>
